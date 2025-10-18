@@ -24,6 +24,9 @@ export default function App() {
   const [countdownActive, setCountdownActive] = useState(false);
   const [countdownStartTime, setCountdownStartTime] = useState<Date | null>(null);
   const [countdownDuration, setCountdownDuration] = useState<number>(0);
+  const [progressBarLimitEnabled, setProgressBarLimitEnabled] = useState<boolean>(false);
+  const [progressBarLimitHours, setProgressBarLimitHours] = useState<number>(3);
+  const [progressBarLimitMinutes, setProgressBarLimitMinutes] = useState<number>(0);
 
   // UI State
   const [showSettings, setShowSettings] = useState(false);
@@ -121,7 +124,23 @@ export default function App() {
 
   // Calculate progress percentage (reversed: starts at 100%, goes down to 0%)
   const progressPercent = countdownActive && countdownDuration > 0 && targetDate
-    ? Math.max(0, Math.min(100, ((targetDate.getTime() - Date.now()) / countdownDuration) * 100))
+    ? (() => {
+        const remainingMs = targetDate.getTime() - Date.now();
+
+        // If limit is enabled, use limit as reference duration
+        if (progressBarLimitEnabled) {
+          const limitMs = (progressBarLimitHours * 60 * 60 + progressBarLimitMinutes * 60) * 1000;
+
+          // Bar always shows remaining time as percentage of limit duration
+          // Example: 2h remaining with 3h limit = 66.6% (2/3)
+          // Example: 4h remaining with 3h limit = 100% (stays full until drops below 3h)
+          const percentage = Math.min(100, (remainingMs / limitMs) * 100);
+          return Math.max(0, percentage);
+        }
+
+        // Normal mode: remaining time as percentage of total duration
+        return Math.max(0, Math.min(100, (remainingMs / countdownDuration) * 100));
+      })()
     : 0;
 
   // Start Countdown Handler
@@ -324,6 +343,12 @@ export default function App() {
         remainingTime={remainingTime}
         countdownStartTime={countdownStartTime}
         targetDate={targetDate}
+        progressBarLimitEnabled={progressBarLimitEnabled}
+        setProgressBarLimitEnabled={setProgressBarLimitEnabled}
+        progressBarLimitHours={progressBarLimitHours}
+        setProgressBarLimitHours={setProgressBarLimitHours}
+        progressBarLimitMinutes={progressBarLimitMinutes}
+        setProgressBarLimitMinutes={setProgressBarLimitMinutes}
       />
     </div>
   );

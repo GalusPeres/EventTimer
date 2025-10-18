@@ -131,13 +131,17 @@ export default function ScheduleTab({ onFooterRender }: Props) {
         </span>
       </div>
 
-      {/* Table Header */}
-      <div className="grid grid-cols-[1fr,7rem,7rem,2.5rem] gap-2 px-2 text-xs text-white/60">
-        <div>Bezeichnung</div>
-        <div className="text-center">Von</div>
-        <div className="text-center">Bis</div>
-        <div></div>
-      </div>
+      {/* Zeitplan Items */}
+      <div>
+        <div className="mb-2 text-sm text-white/90">Zeitplan-Einträge:</div>
+
+        {/* Table Header */}
+        <div className="grid grid-cols-[1fr,7rem,7rem,2.5rem] gap-2 px-2 text-xs text-white/60 mb-2">
+          <div>Bezeichnung</div>
+          <div className="text-center">Von</div>
+          <div className="text-center">Bis</div>
+          <div></div>
+        </div>
 
       {/* Schedule Items Table */}
       <div className="space-y-2">
@@ -175,6 +179,7 @@ export default function ScheduleTab({ onFooterRender }: Props) {
             </button>
           </div>
         ))}
+      </div>
       </div>
     </div>
   );

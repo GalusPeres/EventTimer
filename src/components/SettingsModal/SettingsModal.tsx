@@ -15,6 +15,12 @@ type Props = {
   remainingTime?: string;
   countdownStartTime?: Date | null;
   targetDate?: Date | null;
+  progressBarLimitEnabled: boolean;
+  setProgressBarLimitEnabled: (enabled: boolean) => void;
+  progressBarLimitHours: number;
+  setProgressBarLimitHours: (hours: number) => void;
+  progressBarLimitMinutes: number;
+  setProgressBarLimitMinutes: (minutes: number) => void;
 };
 
 export default function SettingsModal({
@@ -26,6 +32,12 @@ export default function SettingsModal({
   remainingTime,
   countdownStartTime,
   targetDate,
+  progressBarLimitEnabled,
+  setProgressBarLimitEnabled,
+  progressBarLimitHours,
+  setProgressBarLimitHours,
+  progressBarLimitMinutes,
+  setProgressBarLimitMinutes,
 }: Props) {
   const settings = useSettings();
   const [tab, setTab] = useState<'countdown' | 'schedule' | 'header' | 'about'>('countdown');
@@ -241,6 +253,12 @@ export default function SettingsModal({
               remainingTime={remainingTime}
               countdownStartTime={countdownStartTime}
               targetDate={targetDate}
+              progressBarLimitEnabled={progressBarLimitEnabled}
+              setProgressBarLimitEnabled={setProgressBarLimitEnabled}
+              progressBarLimitHours={progressBarLimitHours}
+              setProgressBarLimitHours={setProgressBarLimitHours}
+              progressBarLimitMinutes={progressBarLimitMinutes}
+              setProgressBarLimitMinutes={setProgressBarLimitMinutes}
             />
           ) : tab === 'schedule' ? (
             <ScheduleTab onFooterRender={setScheduleFooter} />

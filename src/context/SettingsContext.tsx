@@ -22,6 +22,11 @@ export type Settings = {
   scheduleItems: ScheduleItem[];
   scheduleHeight: number;
 
+  // Progress Bar Limit
+  progressBarLimitEnabled: boolean;
+  progressBarLimitHours: number;
+  progressBarLimitMinutes: number;
+
   // Setters
   setTournamentName(v: string): void;
   setLogoPath(v: string): void;
@@ -31,6 +36,9 @@ export type Settings = {
   setScheduleVisible(v: boolean): void;
   setScheduleItems(v: ScheduleItem[]): void;
   setScheduleHeight(v: number): void;
+  setProgressBarLimitEnabled(v: boolean): void;
+  setProgressBarLimitHours(v: number): void;
+  setProgressBarLimitMinutes(v: number): void;
 };
 
 const SettingsContext = createContext<Settings | null>(null);
@@ -57,6 +65,9 @@ const DEFAULT_SETTINGS = {
   currentGame: 1,
   scheduleVisible: true,
   scheduleHeight: 100,
+  progressBarLimitEnabled: false,
+  progressBarLimitHours: 3,
+  progressBarLimitMinutes: 0,
   scheduleItems: [
     { id: 'item-1', label: 'Spiel 1', startTime: '09:30', endTime: '12:30' },
     { id: 'item-2', label: 'Mittagspause', startTime: '12:30', endTime: '13:30' },
@@ -81,6 +92,9 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
     scheduleVisible,
     scheduleItems,
     scheduleHeight,
+    progressBarLimitEnabled,
+    progressBarLimitHours,
+    progressBarLimitMinutes,
   } = allSettings;
 
   // Debounced save to localStorage
@@ -119,6 +133,9 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
   const setScheduleVisible = useMemo(() => createSetter('scheduleVisible'), [createSetter]);
   const setScheduleItems = useMemo(() => createSetter('scheduleItems'), [createSetter]);
   const setScheduleHeight = useMemo(() => createSetter('scheduleHeight'), [createSetter]);
+  const setProgressBarLimitEnabled = useMemo(() => createSetter('progressBarLimitEnabled'), [createSetter]);
+  const setProgressBarLimitHours = useMemo(() => createSetter('progressBarLimitHours'), [createSetter]);
+  const setProgressBarLimitMinutes = useMemo(() => createSetter('progressBarLimitMinutes'), [createSetter]);
 
   const value: Settings = useMemo(() => ({
     tournamentName,
@@ -129,6 +146,9 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
     scheduleVisible,
     scheduleItems,
     scheduleHeight,
+    progressBarLimitEnabled,
+    progressBarLimitHours,
+    progressBarLimitMinutes,
     setTournamentName,
     setLogoPath,
     setHeaderVisible,
@@ -137,6 +157,9 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
     setScheduleVisible,
     setScheduleItems,
     setScheduleHeight,
+    setProgressBarLimitEnabled,
+    setProgressBarLimitHours,
+    setProgressBarLimitMinutes,
   }), [
     tournamentName,
     logoPath,
@@ -146,6 +169,9 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
     scheduleVisible,
     scheduleItems,
     scheduleHeight,
+    progressBarLimitEnabled,
+    progressBarLimitHours,
+    progressBarLimitMinutes,
     setTournamentName,
     setLogoPath,
     setHeaderVisible,
@@ -154,6 +180,9 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
     setScheduleVisible,
     setScheduleItems,
     setScheduleHeight,
+    setProgressBarLimitEnabled,
+    setProgressBarLimitHours,
+    setProgressBarLimitMinutes,
   ]);
 
   return (

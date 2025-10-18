@@ -202,26 +202,11 @@ export default function App() {
 
   return (
     <div
-      className={`w-screen h-screen bg-black text-white select-none overflow-hidden relative ${
+      className={`w-screen h-screen bg-black text-white select-none overflow-hidden flex flex-col ${
         hideAppCursor ? 'cursor-none' : ''
       }`}
     >
       <DragBar onMouseActivity={resetCursorTimer} />
-
-      {/* Header */}
-      {settings.headerVisible && (
-        <div className="absolute top-0 left-0 right-0 flex items-center justify-center pt-6 pb-2 z-30">
-          <div className="flex items-center gap-4">
-            <img src={settings.logoPath || logo} alt="Logo" className="h-16 w-auto" />
-            <h1
-              className="text-4xl font-bold tracking-wide"
-              style={{ textShadow: '2px 2px 70px rgba(0, 0, 0, 0.7)' }}
-            >
-              {settings.tournamentName}
-            </h1>
-          </div>
-        </div>
-      )}
 
       {/* Hover Controls */}
       <HoverControls
@@ -232,12 +217,26 @@ export default function App() {
         isFullscreen={isFullscreen}
       />
 
+      {/* Header */}
+      {settings.headerVisible && (
+        <div className="flex items-center justify-center pt-8 pb-4">
+          <div className="flex items-center gap-6">
+            <img src={settings.logoPath || logo} alt="Logo" className="h-28 w-auto" />
+            <h1
+              className="text-6xl font-bold tracking-wide"
+              style={{ textShadow: '2px 2px 70px rgba(0, 0, 0, 0.7)' }}
+            >
+              {settings.tournamentName}
+            </h1>
+          </div>
+        </div>
+      )}
+
       {/* Main Countdown Display with integrated Progress Bar */}
-      <div className="flex items-center justify-center h-full px-4">
+      <div className="flex items-center justify-center flex-1 px-3 pb-3">
         <div
-          className="relative rounded-[70px] w-full cursor-pointer hover:opacity-90 transition-opacity overflow-hidden"
+          className="relative rounded-[70px] w-full h-full cursor-pointer hover:opacity-90 transition-opacity overflow-hidden"
           onClick={() => setShowSettings(true)}
-          style={{ maxWidth: '95vw' }}
         >
           {/* Progress Bar Background (gray - #11131b) */}
           <div className="absolute inset-0 bg-[#11131b] rounded-[70px]" />
@@ -251,7 +250,7 @@ export default function App() {
           />
 
           {/* Content */}
-          <div className="relative z-10 py-12 px-8">
+          <div className="relative z-10 px-8 h-full flex items-center justify-center">
             {countdownActive ? (
               <div className="text-center">
                 <div className="text-4xl mb-4" style={{ textShadow: '2px 2px 70px rgba(0, 0, 0, 0.7)' }}>
@@ -266,15 +265,23 @@ export default function App() {
               </div>
             ) : (
               <div className="text-center">
-                <div
-                  className="font-bold leading-none"
-                  style={{ fontSize: 'clamp(8rem, 20vw, 22rem)', textShadow: '2px 2px 70px rgba(0, 0, 0, 0.7)' }}
-                >
-                  {remainingTime || '--:--:--'}
-                </div>
-                <div className="text-4xl mt-4" style={{ textShadow: '2px 2px 70px rgba(0, 0, 0, 0.7)' }}>
-                  {remainingTime && !countdownActive ? `${getCurrentPhaseLabel()} ist beendet` : 'Countdown stellen'}
-                </div>
+                {remainingTime ? (
+                  <>
+                    <div
+                      className="font-bold leading-none"
+                      style={{ fontSize: 'clamp(8rem, 20vw, 22rem)', textShadow: '2px 2px 70px rgba(0, 0, 0, 0.7)' }}
+                    >
+                      {remainingTime}
+                    </div>
+                    <div className="text-4xl mt-4" style={{ textShadow: '2px 2px 70px rgba(0, 0, 0, 0.7)' }}>
+                      {getCurrentPhaseLabel()} ist beendet
+                    </div>
+                  </>
+                ) : (
+                  <div className="text-5xl font-bold" style={{ textShadow: '2px 2px 70px rgba(0, 0, 0, 0.7)' }}>
+                    Countdown stellen
+                  </div>
+                )}
               </div>
             )}
           </div>
@@ -283,20 +290,26 @@ export default function App() {
 
       {/* Schedule - Full Width */}
       {settings.scheduleVisible && (
-        <div className="absolute bottom-4 left-0 right-0 flex justify-stretch gap-2 px-2 z-10">
+        <div className="flex justify-stretch gap-3 px-3 pb-3">
           {settings.scheduleItems.map((item) => {
             const isCurrent = item.id === currentScheduleItemId;
             return (
               <div
                 key={item.id}
-                className={`bg-[#11131b] rounded-2xl px-4 py-3 transition-all flex-1 ${
+                className={`bg-[#11131b] rounded-2xl px-6 py-6 transition-all flex-1 ${
                   isCurrent ? 'bg-opacity-100' : 'bg-opacity-60'
                 }`}
               >
-                <div className="text-xl font-bold text-center" style={{ textShadow: '2px 2px 70px rgba(0, 0, 0, 0.7)' }}>
+                <div
+                  className="font-bold text-center"
+                  style={{ fontSize: 'clamp(1.2rem, 2vw, 1.875rem)', textShadow: '2px 2px 70px rgba(0, 0, 0, 0.7)' }}
+                >
                   {item.label}
                 </div>
-                <div className="text-lg text-center" style={{ textShadow: '2px 2px 70px rgba(0, 0, 0, 0.7)' }}>
+                <div
+                  className="text-center"
+                  style={{ fontSize: 'clamp(1rem, 1.5vw, 1.5rem)', textShadow: '2px 2px 70px rgba(0, 0, 0, 0.7)' }}
+                >
                   {item.startTime} - {item.endTime}
                 </div>
               </div>

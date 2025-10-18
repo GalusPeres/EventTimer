@@ -221,10 +221,14 @@ export default function App() {
       {settings.headerVisible && (
         <div className="flex items-center justify-center py-8">
           <div className="flex items-center gap-8">
-            <img src={settings.logoPath || logo} alt="Logo" className="h-32 w-auto" />
+            <img
+              src={settings.logoPath || logo}
+              alt="Logo"
+              style={{ height: 'clamp(6rem, 15vh, 10rem)', width: 'auto' }}
+            />
             <h1
-              className="text-7xl font-bold tracking-wide"
-              style={{ textShadow: '2px 2px 70px rgba(0, 0, 0, 0.7)' }}
+              className="font-bold tracking-wide whitespace-nowrap"
+              style={{ fontSize: 'clamp(2.5rem, 5vw, 5rem)', textShadow: '2px 2px 70px rgba(0, 0, 0, 0.7)' }}
             >
               {settings.tournamentName}
             </h1>
@@ -252,7 +256,7 @@ export default function App() {
           {/* Content */}
           <div className="relative z-10 px-8 h-full">
             {countdownActive && (
-              <div className="absolute top-16 left-0 right-0 text-center text-6xl" style={{ textShadow: '2px 2px 70px rgba(0, 0, 0, 0.7)' }}>
+              <div className="absolute left-0 right-0 text-center" style={{ top: 'clamp(1rem, 3vh, 4rem)', fontSize: 'clamp(2rem, 4.5vw, 6rem)', textShadow: '2px 2px 70px rgba(0, 0, 0, 0.7)' }}>
                 {getCurrentPhaseLabel()} endet in
               </div>
             )}
@@ -266,11 +270,11 @@ export default function App() {
                     {remainingTime}
                   </div>
                 ) : remainingTime ? (
-                  <div className="text-5xl font-bold" style={{ textShadow: '2px 2px 70px rgba(0, 0, 0, 0.7)' }}>
+                  <div style={{ fontSize: 'clamp(2rem, 4vw, 5rem)', fontWeight: 'bold', textShadow: '2px 2px 70px rgba(0, 0, 0, 0.7)' }}>
                     {getCurrentPhaseLabel()} ist beendet
                   </div>
                 ) : (
-                  <div className="text-5xl font-bold" style={{ textShadow: '2px 2px 70px rgba(0, 0, 0, 0.7)' }}>
+                  <div style={{ fontSize: 'clamp(2rem, 4vw, 5rem)', fontWeight: 'bold', textShadow: '2px 2px 70px rgba(0, 0, 0, 0.7)' }}>
                     Countdown stellen
                   </div>
                 )}

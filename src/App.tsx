@@ -238,16 +238,16 @@ export default function App() {
 
       {/* Header */}
       {settings.headerVisible && (
-        <div className="flex items-center justify-center py-8">
+        <div className="flex items-center justify-center" style={{ paddingTop: `${(settings.headerHeight / 100) * 2}rem`, paddingBottom: `${(settings.headerHeight / 100) * 2}rem` }}>
           <div className="flex items-center gap-8">
             <img
               src={settings.logoPath || logo}
               alt="Logo"
-              style={{ height: 'clamp(6rem, 15vh, 10rem)', width: 'auto' }}
+              style={{ height: `calc(clamp(6rem, 15vh, 10rem) * ${settings.headerHeight / 100})`, width: 'auto' }}
             />
             <h1
               className="font-bold tracking-wide whitespace-nowrap"
-              style={{ fontSize: 'clamp(2.5rem, 5vw, 5rem)', textShadow: '2px 2px 70px rgba(0, 0, 0, 0.7)' }}
+              style={{ fontSize: `calc(clamp(2.5rem, 5vw, 5rem) * ${settings.headerHeight / 100})`, textShadow: '2px 2px 70px rgba(0, 0, 0, 0.7)' }}
             >
               {settings.tournamentName}
             </h1>
@@ -311,19 +311,20 @@ export default function App() {
             return (
               <div
                 key={item.id}
-                className={`bg-[#11131b] rounded-2xl px-6 py-8 transition-all flex-1 ${
+                className={`bg-[#11131b] rounded-[50px] transition-all flex-1 ${
                   isCurrent ? 'bg-opacity-100' : 'bg-opacity-60'
                 }`}
+                style={{ paddingLeft: '1.5rem', paddingRight: '1.5rem', paddingTop: `${(settings.scheduleHeight / 100) * 2}rem`, paddingBottom: `${(settings.scheduleHeight / 100) * 2}rem` }}
               >
                 <div
                   className="font-bold text-center"
-                  style={{ fontSize: 'clamp(1.2rem, 2vw, 1.875rem)', textShadow: '2px 2px 70px rgba(0, 0, 0, 0.7)' }}
+                  style={{ fontSize: `calc(clamp(1.2rem, 2vw, 1.875rem) * ${settings.scheduleHeight / 100})`, textShadow: '2px 2px 70px rgba(0, 0, 0, 0.7)' }}
                 >
                   {item.label}
                 </div>
                 <div
                   className="text-center mt-1"
-                  style={{ fontSize: 'clamp(1.125rem, 1.75vw, 1.75rem)', textShadow: '2px 2px 70px rgba(0, 0, 0, 0.7)' }}
+                  style={{ fontSize: `calc(clamp(1.125rem, 1.75vw, 1.75rem) * ${settings.scheduleHeight / 100})`, textShadow: '2px 2px 70px rgba(0, 0, 0, 0.7)' }}
                 >
                   {item.startTime} - {item.endTime}
                 </div>

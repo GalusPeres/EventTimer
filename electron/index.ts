@@ -5,8 +5,8 @@ let mainWindow: BrowserWindow | null = null;
 
 function createWindow() {
   mainWindow = new BrowserWindow({
-    width: 1280,
-    height: 800,
+    width: 1000,
+    height: 700,
     backgroundColor: '#000000',
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
@@ -16,9 +16,6 @@ function createWindow() {
     frame: false,
     fullscreen: false,
   });
-
-  // Maximize window instead of fullscreen
-  mainWindow.maximize();
 
   // Load the app
   if (process.env.VITE_DEV_SERVER_URL) {

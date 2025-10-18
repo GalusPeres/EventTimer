@@ -27,6 +27,8 @@ export default function ScheduleTab({ onFooterRender }: Props) {
     const newItems = [...editingItems];
     newItems[index] = { ...newItems[index], [field]: value };
     setEditingItems(newItems);
+    setOriginalItems(newItems);
+    settings.setScheduleItems(newItems);
   };
 
   const addItem = () => {
@@ -65,6 +67,7 @@ export default function ScheduleTab({ onFooterRender }: Props) {
     setEditingItems(defaultItems);
     setOriginalItems(defaultItems);
     settings.setScheduleItems(defaultItems);
+    settings.setScheduleHeight(100);
   };
 
   // Save changes when leaving the tab or closing modal
@@ -105,30 +108,61 @@ export default function ScheduleTab({ onFooterRender }: Props) {
   return (
     <div className="space-y-4">
       {/* Schedule Visibility Toggle */}
-      <div className="flex items-center gap-3">
-        <button
-          onClick={() => settings.setScheduleVisible(!settings.scheduleVisible)}
-          className={`
-            w-6 h-6 rounded-md border-2 flex items-center justify-center transition-all
-            ${settings.scheduleVisible
-              ? 'bg-gradient-to-br from-blue-600 to-indigo-500 border-blue-500'
-              : 'bg-gradient-to-br from-zinc-800/50 to-zinc-700/50 border-zinc-600/50 hover:from-zinc-700/70 hover:to-zinc-600/70 hover:border-zinc-500/70'
-            }
-            focus:outline-none focus:ring-2 focus:ring-blue-500/50
-          `}
-        >
-          {settings.scheduleVisible && (
-            <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-            </svg>
-          )}
-        </button>
-        <span
-          onClick={() => settings.setScheduleVisible(!settings.scheduleVisible)}
-          className="text-sm text-white/90 cursor-pointer select-none"
-        >
-          Zeitplan anzeigen
-        </span>
+      <div className="grid grid-cols-2 gap-3 items-center">
+        {/* Column 1: Checkbox + Label */}
+        <div className="flex items-center gap-3">
+          <button
+            onClick={() => settings.setScheduleVisible(!settings.scheduleVisible)}
+            className={`
+              w-6 h-6 rounded-md border-2 flex items-center justify-center transition-all shrink-0
+              ${settings.scheduleVisible
+                ? 'bg-gradient-to-br from-blue-600 to-indigo-500 border-blue-500'
+                : 'bg-gradient-to-br from-zinc-800/50 to-zinc-700/50 border-zinc-600/50 hover:from-zinc-700/70 hover:to-zinc-600/70 hover:border-zinc-500/70'
+              }
+              focus:outline-none focus:ring-2 focus:ring-blue-500/50
+            `}
+          >
+            {settings.scheduleVisible && (
+              <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+              </svg>
+            )}
+          </button>
+          <span
+            onClick={() => settings.setScheduleVisible(!settings.scheduleVisible)}
+            className="text-sm text-white/90 cursor-pointer select-none"
+          >
+            Zeitplan anzeigen
+          </span>
+        </div>
+
+        {/* Column 2: Height Slider - nur wenn Schedule sichtbar */}
+        {settings.scheduleVisible && (
+          <div className="flex items-center justify-end">
+            <span className="text-sm text-white/90 mr-2.5">Größe</span>
+            <input
+              type="range"
+              min={50}
+              max={150}
+              step={5}
+              value={settings.scheduleHeight}
+              onChange={(e) => {
+                const value = Number(e.target.value);
+                settings.setScheduleHeight(value);
+              }}
+              className="w-32 height-range"
+              style={{
+                ['--val' as any]: `${((settings.scheduleHeight - 50) / (150 - 50)) * 100}%`,
+              }}
+              onInput={(e) => {
+                const val = Number((e.target as HTMLInputElement).value);
+                const percentage = ((val - 50) / (150 - 50)) * 100;
+                (e.target as HTMLInputElement).style.setProperty('--val', `${percentage}%`);
+              }}
+            />
+            <span className="text-sm text-white/90 w-10 shrink-0 text-right ml-1.5">{settings.scheduleHeight}%</span>
+          </div>
+        )}
       </div>
 
       {/* Zeitplan Items */}

@@ -12,6 +12,7 @@ export type Settings = {
   tournamentName: string;
   logoPath: string;
   headerVisible: boolean;
+  headerHeight: number;
 
   // Current Game State
   currentGame: number; // 1, 2, or 3
@@ -19,14 +20,17 @@ export type Settings = {
   // Schedule
   scheduleVisible: boolean;
   scheduleItems: ScheduleItem[];
+  scheduleHeight: number;
 
   // Setters
   setTournamentName(v: string): void;
   setLogoPath(v: string): void;
   setHeaderVisible(v: boolean): void;
+  setHeaderHeight(v: number): void;
   setCurrentGame(v: number): void;
   setScheduleVisible(v: boolean): void;
   setScheduleItems(v: ScheduleItem[]): void;
+  setScheduleHeight(v: number): void;
 };
 
 const SettingsContext = createContext<Settings | null>(null);
@@ -49,8 +53,10 @@ const DEFAULT_SETTINGS = {
   tournamentName: 'WAIDLER TOURNAMENT',
   logoPath: '',
   headerVisible: true,
+  headerHeight: 100,
   currentGame: 1,
   scheduleVisible: true,
+  scheduleHeight: 100,
   scheduleItems: [
     { id: 'item-1', label: 'Spiel 1', startTime: '09:30', endTime: '12:30' },
     { id: 'item-2', label: 'Mittagspause', startTime: '12:30', endTime: '13:30' },
@@ -70,9 +76,11 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
     tournamentName,
     logoPath,
     headerVisible,
+    headerHeight,
     currentGame,
     scheduleVisible,
     scheduleItems,
+    scheduleHeight,
   } = allSettings;
 
   // Debounced save to localStorage
@@ -106,36 +114,46 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
   const setTournamentName = useMemo(() => createSetter('tournamentName'), [createSetter]);
   const setLogoPath = useMemo(() => createSetter('logoPath'), [createSetter]);
   const setHeaderVisible = useMemo(() => createSetter('headerVisible'), [createSetter]);
+  const setHeaderHeight = useMemo(() => createSetter('headerHeight'), [createSetter]);
   const setCurrentGame = useMemo(() => createSetter('currentGame'), [createSetter]);
   const setScheduleVisible = useMemo(() => createSetter('scheduleVisible'), [createSetter]);
   const setScheduleItems = useMemo(() => createSetter('scheduleItems'), [createSetter]);
+  const setScheduleHeight = useMemo(() => createSetter('scheduleHeight'), [createSetter]);
 
   const value: Settings = useMemo(() => ({
     tournamentName,
     logoPath,
     headerVisible,
+    headerHeight,
     currentGame,
     scheduleVisible,
     scheduleItems,
+    scheduleHeight,
     setTournamentName,
     setLogoPath,
     setHeaderVisible,
+    setHeaderHeight,
     setCurrentGame,
     setScheduleVisible,
     setScheduleItems,
+    setScheduleHeight,
   }), [
     tournamentName,
     logoPath,
     headerVisible,
+    headerHeight,
     currentGame,
     scheduleVisible,
     scheduleItems,
+    scheduleHeight,
     setTournamentName,
     setLogoPath,
     setHeaderVisible,
+    setHeaderHeight,
     setCurrentGame,
     setScheduleVisible,
     setScheduleItems,
+    setScheduleHeight,
   ]);
 
   return (

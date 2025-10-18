@@ -46,3 +46,65 @@
 .cursor-none {
   cursor: none !important;
 }
+
+/* Custom range slider */
+.height-range {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  border-radius: 9999px;
+  background:
+    linear-gradient(to right, #3b82f6, #06b6d4) 0/var(--val, 0%) 100% no-repeat,
+    #3b3b3b;
+  cursor: pointer;
+  position: relative;
+}
+.height-range:focus { outline: none; }
+
+.height-range::before {
+  content: '';
+  position: absolute;
+  top: -8px;
+  bottom: -8px;
+  left: 0;
+  right: 0;
+  cursor: pointer;
+}
+
+/* WebKit (Chrome/Electron) */
+.height-range::-webkit-slider-runnable-track {
+  height: 6px;
+  border-radius: 9999px;
+  background: transparent;
+}
+.height-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #3b82f6, #06b6d4);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  margin-top: -4px;
+  cursor: pointer;
+}
+
+/* Firefox */
+.height-range::-moz-range-track {
+  height: 6px;
+  border-radius: 9999px;
+  background: #3b3b3b;
+}
+.height-range::-moz-range-progress {
+  height: 6px;
+  border-radius: 9999px;
+  background: linear-gradient(to right, #3b82f6, #06b6d4);
+}
+.height-range::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #3b82f6, #06b6d4);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  cursor: pointer;
+}

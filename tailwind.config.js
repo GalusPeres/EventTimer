@@ -5,6 +5,9 @@ module.exports = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ['Roboto', 'Arial', 'sans-serif'],
+      },
       keyframes: {
         slideUp: {
           '0%': { transform: 'translateY(1rem)', opacity: '0' },

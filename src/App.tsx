@@ -219,11 +219,11 @@ export default function App() {
 
       {/* Header */}
       {settings.headerVisible && (
-        <div className="flex items-center justify-center pt-8 pb-4">
-          <div className="flex items-center gap-6">
-            <img src={settings.logoPath || logo} alt="Logo" className="h-28 w-auto" />
+        <div className="flex items-center justify-center py-8">
+          <div className="flex items-center gap-8">
+            <img src={settings.logoPath || logo} alt="Logo" className="h-32 w-auto" />
             <h1
-              className="text-6xl font-bold tracking-wide"
+              className="text-7xl font-bold tracking-wide"
               style={{ textShadow: '2px 2px 70px rgba(0, 0, 0, 0.7)' }}
             >
               {settings.tournamentName}
@@ -250,40 +250,32 @@ export default function App() {
           />
 
           {/* Content */}
-          <div className="relative z-10 px-8 h-full flex items-center justify-center">
-            {countdownActive ? (
-              <div className="text-center">
-                <div className="text-4xl mb-4" style={{ textShadow: '2px 2px 70px rgba(0, 0, 0, 0.7)' }}>
-                  {getCurrentPhaseLabel()} endet in
-                </div>
-                <div
-                  className="font-bold tabular-nums leading-none"
-                  style={{ fontSize: 'clamp(8rem, 20vw, 22rem)', textShadow: '2px 2px 70px rgba(0, 0, 0, 0.7)' }}
-                >
-                  {remainingTime}
-                </div>
+          <div className="relative z-10 px-8 h-full">
+            {countdownActive && (
+              <div className="absolute top-16 left-0 right-0 text-center text-6xl" style={{ textShadow: '2px 2px 70px rgba(0, 0, 0, 0.7)' }}>
+                {getCurrentPhaseLabel()} endet in
               </div>
-            ) : (
-              <div className="text-center">
-                {remainingTime ? (
-                  <>
-                    <div
-                      className="font-bold leading-none"
-                      style={{ fontSize: 'clamp(8rem, 20vw, 22rem)', textShadow: '2px 2px 70px rgba(0, 0, 0, 0.7)' }}
-                    >
-                      {remainingTime}
-                    </div>
-                    <div className="text-4xl mt-4" style={{ textShadow: '2px 2px 70px rgba(0, 0, 0, 0.7)' }}>
-                      {getCurrentPhaseLabel()} ist beendet
-                    </div>
-                  </>
+            )}
+            <div className="h-full flex items-center justify-center">
+              <div className="text-center w-full">
+                {countdownActive ? (
+                  <div
+                    className="tabular-nums leading-none"
+                    style={{ fontSize: 'clamp(8rem, 20vw, 22rem)', fontWeight: 400, textShadow: '2px 2px 70px rgba(0, 0, 0, 0.7)' }}
+                  >
+                    {remainingTime}
+                  </div>
+                ) : remainingTime ? (
+                  <div className="text-5xl font-bold" style={{ textShadow: '2px 2px 70px rgba(0, 0, 0, 0.7)' }}>
+                    {getCurrentPhaseLabel()} ist beendet
+                  </div>
                 ) : (
                   <div className="text-5xl font-bold" style={{ textShadow: '2px 2px 70px rgba(0, 0, 0, 0.7)' }}>
                     Countdown stellen
                   </div>
                 )}
               </div>
-            )}
+            </div>
           </div>
         </div>
       </div>
@@ -296,7 +288,7 @@ export default function App() {
             return (
               <div
                 key={item.id}
-                className={`bg-[#11131b] rounded-2xl px-6 py-6 transition-all flex-1 ${
+                className={`bg-[#11131b] rounded-2xl px-6 py-8 transition-all flex-1 ${
                   isCurrent ? 'bg-opacity-100' : 'bg-opacity-60'
                 }`}
               >
@@ -307,8 +299,8 @@ export default function App() {
                   {item.label}
                 </div>
                 <div
-                  className="text-center"
-                  style={{ fontSize: 'clamp(1rem, 1.5vw, 1.5rem)', textShadow: '2px 2px 70px rgba(0, 0, 0, 0.7)' }}
+                  className="text-center mt-1"
+                  style={{ fontSize: 'clamp(1.125rem, 1.75vw, 1.75rem)', textShadow: '2px 2px 70px rgba(0, 0, 0, 0.7)' }}
                 >
                   {item.startTime} - {item.endTime}
                 </div>

@@ -133,7 +133,7 @@ export default function ScheduleTab({ onFooterRender }: Props) {
 
       {/* Zeitplan Items */}
       <div>
-        <div className="mb-2 text-sm text-white/90">Zeitplan-Einträge:</div>
+        <div className="mb-2 text-base text-white">Zeitplan-Einträge:</div>
 
         {/* Table Header */}
         <div className="grid grid-cols-[1fr,7rem,7rem,2.5rem] gap-2 px-2 text-xs text-white/60 mb-2">

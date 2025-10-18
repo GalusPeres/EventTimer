@@ -60,7 +60,7 @@ export default function TournamentTab() {
 
       {/* Tournament Name Editor */}
       <div>
-        <div className="mb-2 text-sm text-white/90">Überschrift:</div>
+        <div className="mb-2 text-base text-white">Überschrift:</div>
         <input
           type="text"
           value={settings.tournamentName}
@@ -72,7 +72,7 @@ export default function TournamentTab() {
 
       {/* Logo Upload */}
       <div>
-        <div className="mb-2 text-sm text-white/90">Logo:</div>
+        <div className="mb-2 text-base text-white">Logo:</div>
 
         <div className="flex flex-col items-center gap-3">
           {/* Logo Preview */}

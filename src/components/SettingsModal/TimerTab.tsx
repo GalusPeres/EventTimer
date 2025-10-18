@@ -42,7 +42,7 @@ export default function TimerTab({ mode, setMode, hours, setHours, minutes, setM
       <div className="space-y-4">
         {/* Schedule Item Selection */}
         <div>
-          <div className="mb-2 text-base text-white">Phase auswählen</div>
+          <div className="mb-2 text-base text-white">Phase auswählen:</div>
           <SimpleSelect
             options={settings.scheduleItems.map((item, index) => ({
               value: String(index + 1),
@@ -55,7 +55,7 @@ export default function TimerTab({ mode, setMode, hours, setHours, minutes, setM
 
         {/* Countdown Settings */}
         <div>
-          <div className="mb-2 text-base text-white">Countdown stellen</div>
+          <div className="mb-2 text-base text-white">Countdown stellen:</div>
           <div className="flex items-start gap-4">
             <div className="flex gap-2 mt-1">
               {/* Mode Buttons */}
@@ -169,7 +169,7 @@ export default function TimerTab({ mode, setMode, hours, setHours, minutes, setM
 
         {/* Progress Bar Limit */}
         <div>
-          <div className="mb-2 text-base text-white">Fortschrittsbalken</div>
+          <div className="mb-2 text-base text-white">Fortschrittsbalken:</div>
           <div className="flex items-center gap-3">
             <button
               onClick={() => setProgressBarLimitEnabled(!progressBarLimitEnabled)}

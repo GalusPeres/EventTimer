@@ -39,10 +39,10 @@ export default function TimerTab({ mode, setMode, hours, setHours, minutes, setM
           -moz-appearance: textfield;
         }
       `}</style>
-      <div className="space-y-5">
+      <div className="space-y-4">
         {/* Schedule Item Selection */}
         <div>
-          <div className="mb-3 text-base text-white">Phase auswählen</div>
+          <div className="mb-2 text-base text-white">Phase auswählen</div>
           <SimpleSelect
             options={settings.scheduleItems.map((item, index) => ({
               value: String(index + 1),
@@ -55,9 +55,9 @@ export default function TimerTab({ mode, setMode, hours, setHours, minutes, setM
 
         {/* Countdown Settings */}
         <div>
-          <div className="mb-3 text-base text-white">Countdown stellen</div>
-
-            <div className="flex items-center gap-4">
+          <div className="mb-2 text-base text-white">Countdown stellen</div>
+          <div className="flex items-start gap-4">
+            <div className="flex gap-2 mt-1">
               {/* Mode Buttons */}
               <button
                 onClick={() => setMode('duration')}
@@ -79,23 +79,23 @@ export default function TimerTab({ mode, setMode, hours, setHours, minutes, setM
               >
                 Bis Uhrzeit
               </button>
+            </div>
 
-              {/* Inputs in same row */}
-              {mode === 'duration' && (
-                <div className="flex gap-4 items-end ml-auto">
-                  <div>
-                    <div className="mb-1 text-xs text-white/60">Stunden:</div>
-                    <div className="relative w-20">
-                      <input
-                        type="number"
-                        min="0"
-                        max="23"
-                        value={hours}
-                        onChange={(e) => setHours(Number(e.target.value))}
-                        className="w-full h-9 px-2 pr-8 bg-zinc-900 border border-zinc-700 rounded-lg text-white focus:outline-none focus:border-blue-500"
-                        style={{ lineHeight: '36px' }}
-                      />
-                      <div className="absolute right-1 top-0 h-full flex flex-col justify-center gap-0.5">
+            {/* Inputs in same row */}
+            {mode === 'duration' && (
+                <div className="flex gap-2 items-center ml-auto">
+                  <div className="relative w-20">
+                    <input
+                      type="number"
+                      min="0"
+                      max="23"
+                      value={hours}
+                      onChange={(e) => setHours(Number(e.target.value))}
+                      className="w-full h-9 pl-2 pr-9 bg-zinc-900 border border-zinc-700 rounded-lg text-white focus:outline-none focus:border-blue-500"
+                      style={{ lineHeight: '36px' }}
+                    />
+                    <span className="absolute right-8 top-1/2 -translate-y-1/2 text-xs text-white/40 pointer-events-none">h</span>
+                    <div className="absolute right-1 top-0 h-full flex flex-col justify-center gap-0.5">
                         <button
                           type="button"
                           onClick={() => setHours(Math.min(23, hours + 1))}
@@ -115,21 +115,19 @@ export default function TimerTab({ mode, setMode, hours, setHours, minutes, setM
                           </svg>
                         </button>
                       </div>
-                    </div>
                   </div>
-                  <div>
-                    <div className="mb-1 text-xs text-white/60">Minuten:</div>
-                    <div className="relative w-20">
-                      <input
-                        type="number"
-                        min="0"
-                        max="59"
-                        value={minutes}
-                        onChange={(e) => setMinutes(Number(e.target.value))}
-                        className="w-full h-9 px-2 pr-8 bg-zinc-900 border border-zinc-700 rounded-lg text-white focus:outline-none focus:border-blue-500"
-                        style={{ lineHeight: '36px' }}
-                      />
-                      <div className="absolute right-1 top-0 h-full flex flex-col justify-center gap-0.5">
+                  <div className="relative w-24">
+                    <input
+                      type="number"
+                      min="0"
+                      max="59"
+                      value={minutes}
+                      onChange={(e) => setMinutes(Number(e.target.value))}
+                      className="w-full h-9 pl-2 pr-11 bg-zinc-900 border border-zinc-700 rounded-lg text-white focus:outline-none focus:border-blue-500"
+                      style={{ lineHeight: '36px' }}
+                    />
+                    <span className="absolute right-8 top-1/2 -translate-y-1/2 text-xs text-white/40 pointer-events-none">min</span>
+                    <div className="absolute right-1 top-0 h-full flex flex-col justify-center gap-0.5">
                         <button
                           type="button"
                           onClick={() => setMinutes(Math.min(59, minutes + 1))}
@@ -149,130 +147,122 @@ export default function TimerTab({ mode, setMode, hours, setHours, minutes, setM
                           </svg>
                         </button>
                       </div>
-                    </div>
                   </div>
                 </div>
-              )}
+            )}
 
-              {/* Target Time Mode Input */}
-              {mode === 'target' && (
-                <div className="ml-auto">
-                  <div className="mb-1 text-xs text-white/60">Zielzeit:</div>
+            {/* Target Time Mode Input */}
+            {mode === 'target' && (
+                <div className="relative ml-auto">
                   <input
                     type="time"
                     value={targetTime}
                     onChange={(e) => setTargetTime(e.target.value)}
-                    className="w-32 h-9 px-2 bg-zinc-900 border border-zinc-700 rounded-lg text-white focus:outline-none focus:border-blue-500"
+                    className="w-36 h-9 pl-2 pr-12 bg-zinc-900 border border-zinc-700 rounded-lg text-white focus:outline-none focus:border-blue-500"
                     style={{ colorScheme: 'dark' }}
                   />
+                  <span className="absolute right-2 top-1/2 -translate-y-1/2 text-xs text-white/40 pointer-events-none">Uhr</span>
                 </div>
-              )}
-            </div>
+            )}
+          </div>
         </div>
 
         {/* Progress Bar Limit */}
         <div>
-          <div className="mb-3 text-base text-white">Fortschrittsbalken</div>
-          <div className="flex items-center gap-3 mb-3">
-              <button
-                onClick={() => setProgressBarLimitEnabled(!progressBarLimitEnabled)}
-                className={`
-                  w-6 h-6 rounded-md border-2 flex items-center justify-center transition-all
-                  ${progressBarLimitEnabled
-                    ? 'bg-gradient-to-br from-blue-600 to-indigo-500 border-blue-500'
-                    : 'bg-gradient-to-br from-zinc-800/50 to-zinc-700/50 border-zinc-600/50 hover:from-zinc-700/70 hover:to-zinc-600/70 hover:border-zinc-500/70'
-                  }
-                  focus:outline-none focus:ring-2 focus:ring-blue-500/50
-                `}
-              >
-                {progressBarLimitEnabled && (
-                  <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-                  </svg>
-                )}
-              </button>
-              <span
-                onClick={() => setProgressBarLimitEnabled(!progressBarLimitEnabled)}
-                className="text-sm cursor-pointer select-none"
-              >
-                Balken auf maximale Dauer begrenzen
-              </span>
-          </div>
-          {progressBarLimitEnabled && (
-              <div>
-                <div className="mb-2 text-xs text-white/60">Maximale Anzeige-Dauer:</div>
-                <div className="flex gap-4 items-end">
-                  <div>
-                    <div className="mb-1 text-xs text-white/60">Stunden:</div>
-                    <div className="relative w-20">
-                      <input
-                        type="number"
-                        min="0"
-                        max="23"
-                        value={progressBarLimitHours}
-                        onChange={(e) => setProgressBarLimitHours(Number(e.target.value))}
-                        className="w-full h-9 px-2 pr-8 bg-zinc-900 border border-zinc-700 rounded-lg text-white focus:outline-none focus:border-blue-500"
-                        style={{ lineHeight: '36px' }}
-                      />
-                      <div className="absolute right-1 top-0 h-full flex flex-col justify-center gap-0.5">
-                        <button
-                          type="button"
-                          onClick={() => setProgressBarLimitHours(Math.min(23, progressBarLimitHours + 1))}
-                          className="w-6 h-3.5 flex items-center justify-center text-white/60 hover:text-white hover:bg-zinc-700 rounded transition-colors"
-                        >
-                          <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
-                          </svg>
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => setProgressBarLimitHours(Math.max(0, progressBarLimitHours - 1))}
-                          className="w-6 h-3.5 flex items-center justify-center text-white/60 hover:text-white hover:bg-zinc-700 rounded transition-colors"
-                        >
-                          <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                          </svg>
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                  <div>
-                    <div className="mb-1 text-xs text-white/60">Minuten:</div>
-                    <div className="relative w-20">
-                      <input
-                        type="number"
-                        min="0"
-                        max="59"
-                        value={progressBarLimitMinutes}
-                        onChange={(e) => setProgressBarLimitMinutes(Number(e.target.value))}
-                        className="w-full h-9 px-2 pr-8 bg-zinc-900 border border-zinc-700 rounded-lg text-white focus:outline-none focus:border-blue-500"
-                        style={{ lineHeight: '36px' }}
-                      />
-                      <div className="absolute right-1 top-0 h-full flex flex-col justify-center gap-0.5">
-                        <button
-                          type="button"
-                          onClick={() => setProgressBarLimitMinutes(Math.min(59, progressBarLimitMinutes + 1))}
-                          className="w-6 h-3.5 flex items-center justify-center text-white/60 hover:text-white hover:bg-zinc-700 rounded transition-colors"
-                        >
-                          <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
-                          </svg>
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => setProgressBarLimitMinutes(Math.max(0, progressBarLimitMinutes - 1))}
-                          className="w-6 h-3.5 flex items-center justify-center text-white/60 hover:text-white hover:bg-zinc-700 rounded transition-colors"
-                        >
-                          <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                          </svg>
-                        </button>
-                      </div>
-                    </div>
+          <div className="mb-2 text-base text-white">Fortschrittsbalken</div>
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => setProgressBarLimitEnabled(!progressBarLimitEnabled)}
+              className={`
+                w-6 h-6 rounded-md border-2 flex items-center justify-center transition-all
+                ${progressBarLimitEnabled
+                  ? 'bg-gradient-to-br from-blue-600 to-indigo-500 border-blue-500'
+                  : 'bg-gradient-to-br from-zinc-800/50 to-zinc-700/50 border-zinc-600/50 hover:from-zinc-700/70 hover:to-zinc-600/70 hover:border-zinc-500/70'
+                }
+                focus:outline-none focus:ring-2 focus:ring-blue-500/50
+              `}
+            >
+              {progressBarLimitEnabled && (
+                <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                </svg>
+              )}
+            </button>
+            <span
+              onClick={() => setProgressBarLimitEnabled(!progressBarLimitEnabled)}
+              className="text-sm cursor-pointer select-none"
+            >
+              Auf maximale Dauer begrenzen
+            </span>
+            {progressBarLimitEnabled && (
+              <>
+                <div className="relative w-20 ml-auto">
+                  <input
+                    type="number"
+                    min="0"
+                    max="23"
+                    value={progressBarLimitHours}
+                    onChange={(e) => setProgressBarLimitHours(Number(e.target.value))}
+                    className="w-full h-9 pl-2 pr-9 bg-zinc-900 border border-zinc-700 rounded-lg text-white focus:outline-none focus:border-blue-500"
+                    style={{ lineHeight: '36px' }}
+                  />
+                  <span className="absolute right-8 top-1/2 -translate-y-1/2 text-xs text-white/40 pointer-events-none">h</span>
+                  <div className="absolute right-1 top-0 h-full flex flex-col justify-center gap-0.5">
+                    <button
+                      type="button"
+                      onClick={() => setProgressBarLimitHours(Math.min(23, progressBarLimitHours + 1))}
+                      className="w-6 h-3.5 flex items-center justify-center text-white/60 hover:text-white hover:bg-zinc-700 rounded transition-colors"
+                    >
+                      <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
+                      </svg>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setProgressBarLimitHours(Math.max(0, progressBarLimitHours - 1))}
+                      className="w-6 h-3.5 flex items-center justify-center text-white/60 hover:text-white hover:bg-zinc-700 rounded transition-colors"
+                    >
+                      <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </button>
                   </div>
                 </div>
-              </div>
-          )}
+                <div className="relative w-24">
+                  <input
+                    type="number"
+                    min="0"
+                    max="59"
+                    value={progressBarLimitMinutes}
+                    onChange={(e) => setProgressBarLimitMinutes(Number(e.target.value))}
+                    className="w-full h-9 pl-2 pr-11 bg-zinc-900 border border-zinc-700 rounded-lg text-white focus:outline-none focus:border-blue-500"
+                    style={{ lineHeight: '36px' }}
+                  />
+                  <span className="absolute right-8 top-1/2 -translate-y-1/2 text-xs text-white/40 pointer-events-none">min</span>
+                  <div className="absolute right-1 top-0 h-full flex flex-col justify-center gap-0.5">
+                    <button
+                      type="button"
+                      onClick={() => setProgressBarLimitMinutes(Math.min(59, progressBarLimitMinutes + 1))}
+                      className="w-6 h-3.5 flex items-center justify-center text-white/60 hover:text-white hover:bg-zinc-700 rounded transition-colors"
+                    >
+                      <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
+                      </svg>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setProgressBarLimitMinutes(Math.max(0, progressBarLimitMinutes - 1))}
+                      className="w-6 h-3.5 flex items-center justify-center text-white/60 hover:text-white hover:bg-zinc-700 rounded transition-colors"
+                    >
+                      <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </>
+            )}
+          </div>
         </div>
 
         {/* Info Display */}
@@ -332,45 +322,51 @@ function InfoBox({ countdownActive, mode, hours, minutes, targetTime, remainingT
   };
 
   return (
-    <div className="w-52 p-4 bg-zinc-800/50 border border-zinc-700 rounded-lg space-y-3 flex-shrink-0">
-      <div className="text-sm font-semibold text-white/80 mb-3">Info</div>
-
-      <div className="space-y-2 text-sm">
+    <div className="p-5 bg-zinc-800/50 border border-zinc-700 rounded-lg flex-shrink-0">
+      <div className="grid grid-cols-2 gap-x-16 gap-y-1.5 text-xs">
+        {/* Spalte 1, Zeile 1 */}
         <div className="flex justify-between">
-          <span className="text-white/60">Aktuelle Uhrzeit:</span>
-          <span className="font-medium">{currentTime}</span>
+          <span className="text-white/60">Uhrzeit:</span>
+          <span className="font-medium">{currentTime} Uhr</span>
         </div>
 
+        {/* Spalte 2, Zeile 1 */}
+        {countdownActive && (
+          <div className="flex justify-between">
+            <span className="text-white/60">Startzeit:</span>
+            <span className="font-medium">
+              {countdownStartTime ? `${countdownStartTime.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })} Uhr` : '--:--'}
+            </span>
+          </div>
+        )}
         {!countdownActive && (
           <div className="flex justify-between">
-            <span className="text-white/60">Voraussichtl. Ziel:</span>
-            <span className="font-medium">{calculateTargetTime()}</span>
+            <span className="text-white/60">Ziel:</span>
+            <span className="font-medium">{calculateTargetTime()} Uhr</span>
           </div>
         )}
 
+        {/* Spalte 1, Zeile 2 */}
         {countdownActive && (
-          <>
-            <div className="flex justify-between">
-              <span className="text-white/60">Countdown:</span>
-              <span className="font-medium">{remainingTime || '--:--:--'}</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-white/60">Startzeit:</span>
-              <span className="font-medium">
-                {countdownStartTime ? countdownStartTime.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' }) : '--:--'}
-              </span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-white/60">Zielzeit:</span>
-              <span className="font-medium">
-                {targetDate ? targetDate.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' }) : '--:--'}
-              </span>
-            </div>
-          </>
+          <div className="flex justify-between">
+            <span className="text-white/60">Countdown:</span>
+            <span className="font-medium">{remainingTime || '--:--:--'}</span>
+          </div>
         )}
 
+        {/* Spalte 2, Zeile 2 */}
+        {countdownActive && (
+          <div className="flex justify-between">
+            <span className="text-white/60">Zielzeit:</span>
+            <span className="font-medium">
+              {targetDate ? `${targetDate.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })} Uhr` : '--:--'}
+            </span>
+          </div>
+        )}
+
+        {/* Spalte 1, Zeile 3 - Balken-Limit */}
         {progressBarLimitEnabled && (
-          <div className="flex justify-between pt-2 border-t border-zinc-700/50">
+          <div className="flex justify-between">
             <span className="text-white/60">Balken-Limit:</span>
             <span className="font-medium">
               {progressBarLimitHours > 0 && `${progressBarLimitHours}h`}

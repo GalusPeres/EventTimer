@@ -45,8 +45,8 @@ export default function SettingsModal({
   // Timer tab state
   const [mode, setMode] = useState<'duration' | 'target'>('duration');
   const [hours, setHours] = useState<number>(3);
-  const [minutes, setMinutes] = useState<number>(15);
-  const [targetTime, setTargetTime] = useState<string>('17:00');
+  const [minutes, setMinutes] = useState<number>(0);
+  const [targetTime, setTargetTime] = useState<string>('12:30');
 
   // Confirm modal state
   const [showConfirm, setShowConfirm] = useState(false);
@@ -79,15 +79,18 @@ export default function SettingsModal({
       // Reset timer settings to defaults when stopping/resetting
       setMode('duration');
       setHours(3);
-      setMinutes(15);
-      setTargetTime('17:00');
+      setMinutes(0);
+      setTargetTime('12:30');
+      setProgressBarLimitEnabled(true);
+      setProgressBarLimitHours(3);
+      setProgressBarLimitMinutes(0);
     } else if (confirmAction === 'resetSchedule') {
       const defaultItems = [
-        { id: 'item-1', label: 'SPIEL 1', startTime: '09:30', endTime: '12:45' },
-        { id: 'item-2', label: 'MITTAGSPAUSE', startTime: '12:45', endTime: '13:45' },
-        { id: 'item-3', label: 'SPIEL 2', startTime: '13:45', endTime: '17:00' },
-        { id: 'item-4', label: 'SPIEL 3', startTime: '17:05', endTime: '20:20' },
-        { id: 'item-5', label: 'SIEGEREHRUNG', startTime: '20:30', endTime: '23:59' },
+        { id: 'item-1', label: 'Spiel 1', startTime: '09:30', endTime: '12:30' },
+        { id: 'item-2', label: 'Mittagspause', startTime: '12:30', endTime: '13:30' },
+        { id: 'item-3', label: 'Spiel 2', startTime: '13:30', endTime: '16:30' },
+        { id: 'item-4', label: 'Spiel 3', startTime: '16:45', endTime: '19:45' },
+        { id: 'item-5', label: 'Siegerehrung', startTime: '19:45', endTime: '20:00' },
       ];
       settings.setScheduleItems(defaultItems);
     } else if (confirmAction === 'resetTournament') {
@@ -298,8 +301,11 @@ export default function SettingsModal({
                       // Reset timer settings to defaults
                       setMode('duration');
                       setHours(3);
-                      setMinutes(15);
-                      setTargetTime('17:00');
+                      setMinutes(0);
+                      setTargetTime('12:30');
+                      setProgressBarLimitEnabled(true);
+                      setProgressBarLimitHours(3);
+                      setProgressBarLimitMinutes(0);
                     }
                   }}
                   className="px-6 py-2 bg-gradient-to-br from-blue-600 to-indigo-500 hover:from-blue-700 hover:to-indigo-600 border border-blue-500/30 text-white rounded-xl transition-all"

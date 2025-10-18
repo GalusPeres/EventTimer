@@ -52,11 +52,11 @@ const DEFAULT_SETTINGS = {
   currentGame: 1,
   scheduleVisible: true,
   scheduleItems: [
-    { id: 'item-1', label: 'SPIEL 1', startTime: '09:30', endTime: '12:45' },
-    { id: 'item-2', label: 'MITTAGSPAUSE', startTime: '12:45', endTime: '13:45' },
-    { id: 'item-3', label: 'SPIEL 2', startTime: '13:45', endTime: '17:00' },
-    { id: 'item-4', label: 'SPIEL 3', startTime: '17:05', endTime: '20:20' },
-    { id: 'item-5', label: 'SIEGEREHRUNG', startTime: '20:30', endTime: '23:59' },
+    { id: 'item-1', label: 'Spiel 1', startTime: '09:30', endTime: '12:30' },
+    { id: 'item-2', label: 'Mittagspause', startTime: '12:30', endTime: '13:30' },
+    { id: 'item-3', label: 'Spiel 2', startTime: '13:30', endTime: '16:30' },
+    { id: 'item-4', label: 'Spiel 3', startTime: '16:45', endTime: '19:45' },
+    { id: 'item-5', label: 'Siegerehrung', startTime: '19:45', endTime: '20:00' },
   ],
 };
 

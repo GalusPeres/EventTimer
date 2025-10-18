@@ -194,8 +194,7 @@ export default function TimerTab({ mode, setMode, hours, setHours, minutes, setM
             >
               Auf maximale Dauer begrenzen
             </span>
-            {progressBarLimitEnabled && (
-              <>
+            <div className={`flex gap-2 ml-auto ${!progressBarLimitEnabled ? 'invisible' : ''}`}>
                 <div className="relative w-20 ml-auto">
                   <input
                     type="number"
@@ -260,8 +259,7 @@ export default function TimerTab({ mode, setMode, hours, setHours, minutes, setM
                     </button>
                   </div>
                 </div>
-              </>
-            )}
+            </div>
           </div>
         </div>
 

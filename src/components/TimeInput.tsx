@@ -98,7 +98,7 @@ export default function TimeInput({ value, onChange, className = '' }: TimeInput
                   key={hour}
                   type="button"
                   onClick={() => handleHourClick(hour)}
-                  className={`w-full px-4 py-2 text-sm transition-colors ${
+                  className={`w-full px-3 py-1 text-sm transition-colors ${
                     selectedHour === hour
                       ? 'bg-blue-600 text-white'
                       : 'text-white/80 hover:bg-zinc-700'
@@ -121,7 +121,7 @@ export default function TimeInput({ value, onChange, className = '' }: TimeInput
                   key={minute}
                   type="button"
                   onClick={() => handleMinuteClick(minute)}
-                  className={`w-full px-4 py-2 text-sm transition-colors ${
+                  className={`w-full px-3 py-1 text-sm transition-colors ${
                     selectedMinute === minute
                       ? 'bg-blue-600 text-white'
                       : 'text-white/80 hover:bg-zinc-700'

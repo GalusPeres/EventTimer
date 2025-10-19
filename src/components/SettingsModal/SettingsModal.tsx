@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useSettings } from '../../context/SettingsContext';
 import TimerTab from './TimerTab';
 import ScheduleTab from './ScheduleTab';
-import TournamentTab from './TournamentTab';
+import HeaderTab from './HeaderTab';
 import AboutTab from './AboutTab';
 import ConfirmModal from '../ConfirmModal';
 
@@ -125,7 +125,7 @@ export default function SettingsModal({
           rounded-2xl
           border border-zinc-700
           shadow-[0_0_70px_rgba(0,0,0,0.8)]
-          w-[32rem] max-w-[90vw]
+          w-[30rem] max-w-[90vw]
           h-[36rem] max-h-[90vh]
           flex flex-col overflow-hidden
           animate-fade-in
@@ -235,7 +235,7 @@ export default function SettingsModal({
                   : 'text-white/60 hover:text-white hover:bg-zinc-700/60 rounded-tl-lg'
               } focus:outline-none transition-all`}
             >
-              Über
+              About
             </button>
           </div>
         </div>
@@ -266,7 +266,7 @@ export default function SettingsModal({
           ) : tab === 'schedule' ? (
             <ScheduleTab onFooterRender={setScheduleFooter} />
           ) : tab === 'header' ? (
-            <TournamentTab />
+            <HeaderTab />
           ) : (
             <AboutTab />
           )}
@@ -308,7 +308,7 @@ export default function SettingsModal({
                       setProgressBarLimitMinutes(0);
                     }
                   }}
-                  className="px-6 py-2 bg-gradient-to-br from-blue-600 to-indigo-500 hover:from-blue-700 hover:to-indigo-600 border border-blue-500/30 text-white rounded-xl transition-all"
+                  className="px-4 py-2.5 bg-gradient-to-br from-blue-600 to-indigo-500 hover:from-blue-700 hover:to-indigo-600 border border-blue-500/30 text-white rounded-xl transition-all"
                 >
                   Reset
                 </button>
@@ -324,10 +324,41 @@ export default function SettingsModal({
                 setConfirmAction('resetTournament');
                 setShowConfirm(true);
               }}
-              className="px-6 py-2 bg-gradient-to-br from-blue-600 to-indigo-500 hover:from-blue-700 hover:to-indigo-600 border border-blue-500/30 text-white rounded-xl transition-all"
+              className="px-4 py-2.5 bg-gradient-to-br from-blue-600 to-indigo-500 hover:from-blue-700 hover:to-indigo-600 border border-blue-500/30 text-white rounded-xl transition-all"
             >
               Reset
             </button>
+          )}
+
+          {tab === 'about' && (
+            <div className="flex flex-col items-center space-y-3 w-full">
+              <p className="text-white/40 text-xs">
+                Licensed under MIT License
+              </p>
+              <p className="text-white/40 text-xs">
+                © 2025 GalusPeres. All rights reserved.
+              </p>
+              <div className="flex gap-4 justify-center text-xs">
+                <button
+                  className="text-blue-400 hover:text-blue-300 transition-colors"
+                  onClick={() => {
+                    // Placeholder
+                    console.log('View License clicked');
+                  }}
+                >
+                  View License
+                </button>
+                <button
+                  className="text-blue-400 hover:text-blue-300 transition-colors"
+                  onClick={() => {
+                    // Placeholder
+                    console.log('Report Bug clicked');
+                  }}
+                >
+                  Report Bug
+                </button>
+              </div>
+            </div>
           )}
         </div>
       </div>

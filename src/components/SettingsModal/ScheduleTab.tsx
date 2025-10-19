@@ -87,7 +87,7 @@ export default function ScheduleTab({ onFooterRender }: Props) {
         <>
           <button
             onClick={addItem}
-            className="px-6 py-2 bg-gradient-to-br from-blue-500 to-green-600 hover:from-blue-600 hover:to-green-700 border border-green-500/30 text-white rounded-xl transition-all flex items-center gap-2"
+            className="px-4 py-2.5 bg-gradient-to-br from-blue-500 to-green-600 hover:from-blue-600 hover:to-green-700 border border-green-500/30 text-white rounded-xl transition-all flex items-center gap-2"
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
@@ -96,7 +96,7 @@ export default function ScheduleTab({ onFooterRender }: Props) {
           </button>
           <button
             onClick={handleReset}
-            className="px-6 py-2 bg-gradient-to-br from-blue-600 to-indigo-500 hover:from-blue-700 hover:to-indigo-600 border border-blue-500/30 text-white rounded-xl transition-all"
+            className="px-4 py-2.5 bg-gradient-to-br from-blue-600 to-indigo-500 hover:from-blue-700 hover:to-indigo-600 border border-blue-500/30 text-white rounded-xl transition-all"
           >
             Reset
           </button>
@@ -170,7 +170,7 @@ export default function ScheduleTab({ onFooterRender }: Props) {
         <div className="mb-2 text-base text-white">Zeitplan-Einträge:</div>
 
         {/* Table Header */}
-        <div className="grid grid-cols-[1fr,7rem,7rem,2.5rem] gap-2 px-2 text-xs text-white/60 mb-2">
+        <div className="grid grid-cols-[1fr,6rem,6rem,2.5rem] gap-2 px-2 text-xs text-white/60 mb-2">
           <div>Bezeichnung</div>
           <div className="text-center">Von</div>
           <div className="text-center">Bis</div>
@@ -180,7 +180,7 @@ export default function ScheduleTab({ onFooterRender }: Props) {
       {/* Schedule Items Table */}
       <div className="space-y-2">
         {editingItems.map((item, index) => (
-          <div key={item.id} className="grid grid-cols-[1fr,7rem,7rem,2.5rem] gap-2 items-center">
+          <div key={item.id} className="grid grid-cols-[1fr,6rem,6rem,2.5rem] gap-2 items-center">
             <input
               type="text"
               value={item.label}

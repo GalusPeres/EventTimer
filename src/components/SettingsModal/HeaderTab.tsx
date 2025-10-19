@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 import { useSettings } from '../../context/SettingsContext';
 import defaultLogo from '../../assets/logo.png';
 
-export default function TournamentTab() {
+export default function HeaderTab() {
   const settings = useSettings();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -102,8 +102,8 @@ export default function TournamentTab() {
       </div>
 
       {/* Logo Upload */}
-      <div>
-        <div className="mb-2 text-base text-white">Logo:</div>
+      <div className="relative pt-1">
+        <div className="text-base text-white absolute top-0 left-0">Logo:</div>
 
         <div className="flex flex-col items-center gap-3">
           {/* Logo Preview */}
@@ -118,7 +118,7 @@ export default function TournamentTab() {
           {/* Upload Button */}
           <button
             onClick={handleLogoClick}
-            className="px-4 py-2 bg-gradient-to-br from-blue-500 to-green-600 hover:from-blue-600 hover:to-green-700 border border-green-500/30 text-white rounded-lg transition-all text-sm"
+            className="px-4 py-2.5 bg-gradient-to-br from-blue-500 to-green-600 hover:from-blue-600 hover:to-green-700 border border-green-500/30 text-white rounded-xl transition-all text-sm"
           >
             Logo auswählen
           </button>

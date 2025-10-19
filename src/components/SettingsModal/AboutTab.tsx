@@ -1,70 +1,39 @@
 import React from 'react';
+import defaultLogo from '../../assets/logo.png';
 
 export default function AboutTab() {
   return (
-    <div className="space-y-4">
-      {/* App Info */}
-      <div className="p-3 bg-zinc-800/50 border border-zinc-700/30 rounded-md space-y-2">
-        <div className="flex justify-between items-center">
-          <span className="text-xs text-white/60">Version</span>
-          <span className="text-xs">1.0.0</span>
+    <>
+      {/* App Info Section */}
+      <div className="text-center mb-6">
+        <div className="flex justify-center items-center mb-4 space-x-3">
+          <img src={defaultLogo} alt="CountdownDisplay Icon" className="w-16 h-16" />
+          <div className="text-left">
+            <h3 className="text-xl font-semibold text-white">CountdownDisplay</h3>
+            <p className="text-white/60">Version 0.1.0</p>
+          </div>
         </div>
-        <div className="flex justify-between items-center">
-          <span className="text-xs text-white/60">Entwickelt für</span>
-          <span className="text-xs">Warhammer Turniere</span>
+        <div className="text-white/60">
+          <p>Built with Electron + React + Vite</p>
         </div>
       </div>
 
-      {/* Description */}
-      <div className="p-3 bg-zinc-800/50 border border-zinc-700/30 rounded-md">
-        <p className="text-xs text-white/80 leading-relaxed">
-          Diese Anwendung zeigt einen großen Countdown-Timer mit Zeitplan-Übersicht für Tournament-Events.
-          Der Timer unterstützt zwei Modi: Countdown nach Dauer oder bis zu einer bestimmten Uhrzeit.
-        </p>
+      {/* Action Buttons */}
+      <div className="space-y-3">
+        {/* GitHub Repository */}
+        <button
+          onClick={() => {
+            // Placeholder - will be implemented later
+            console.log('GitHub link clicked');
+          }}
+          className="w-full px-4 py-2.5 bg-zinc-800 hover:bg-zinc-700 border border-zinc-600 text-white rounded-xl focus:outline-none transition-colors flex items-center justify-center space-x-2"
+        >
+          <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+          </svg>
+          <span>View on GitHub</span>
+        </button>
       </div>
-
-      {/* Features */}
-      <div className="p-3 bg-zinc-800/50 border border-zinc-700/30 rounded-md">
-        <h4 className="text-xs mb-2">Features</h4>
-        <ul className="space-y-1.5 text-xs text-white/80">
-          <li className="flex items-start">
-            <span className="mr-2">•</span>
-            <span>Dualer Countdown-Modus (Dauer / Zielzeit)</span>
-          </li>
-          <li className="flex items-start">
-            <span className="mr-2">•</span>
-            <span>3 konfigurierbare Spiele</span>
-          </li>
-          <li className="flex items-start">
-            <span className="mr-2">•</span>
-            <span>Anpassbarer Zeitplan mit 5 Einträgen</span>
-          </li>
-          <li className="flex items-start">
-            <span className="mr-2">•</span>
-            <span>Visueller Fortschrittsbalken</span>
-          </li>
-          <li className="flex items-start">
-            <span className="mr-2">•</span>
-            <span>Vollbildmodus</span>
-          </li>
-          <li className="flex items-start">
-            <span className="mr-2">•</span>
-            <span>Automatisches Speichern aller Einstellungen</span>
-          </li>
-        </ul>
-      </div>
-
-      {/* Tech Stack */}
-      <div className="p-3 bg-zinc-800/50 border border-zinc-700/30 rounded-md">
-        <h4 className="text-xs mb-2">Technologie</h4>
-        <div className="flex flex-wrap gap-2">
-          <span className="px-2 py-1 bg-zinc-700/50 rounded-full text-xs">Electron 28</span>
-          <span className="px-2 py-1 bg-zinc-700/50 rounded-full text-xs">React 18</span>
-          <span className="px-2 py-1 bg-zinc-700/50 rounded-full text-xs">TypeScript 5</span>
-          <span className="px-2 py-1 bg-zinc-700/50 rounded-full text-xs">Tailwind CSS</span>
-          <span className="px-2 py-1 bg-zinc-700/50 rounded-full text-xs">Vite</span>
-        </div>
-      </div>
-    </div>
+    </>
   );
 }

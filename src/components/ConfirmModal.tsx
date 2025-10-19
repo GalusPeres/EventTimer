@@ -23,8 +23,11 @@ export default function ConfirmModal({
 
   return (
     <div
-      className="fixed inset-0 flex items-center justify-center z-[200]"
-      onClick={onCancel}
+      className="fixed inset-0 flex items-center justify-center z-[200] bg-black/20"
+      onClick={(e) => {
+        e.stopPropagation();
+        onCancel();
+      }}
       style={{ pointerEvents: 'auto' }}
     >
       <div
@@ -46,12 +49,13 @@ export default function ConfirmModal({
         </div>
 
         {/* Content */}
-        <div className="px-6 py-6 text-white/90">
+        <div className="px-6 py-6 text-white/90 bg-zinc-900/75 flex-1">
           {message}
         </div>
 
         {/* Footer */}
-        <div className="px-6 py-4 flex justify-end gap-3 border-t border-zinc-600/40">
+        <div className="px-6 py-4 relative flex justify-center gap-3 bg-zinc-900/75 rounded-b-2xl">
+          <div className="absolute top-0 left-4 right-4 border-t-2 border-zinc-600/40"></div>
           <button
             onClick={onCancel}
             className="px-4 py-2 bg-zinc-700 hover:bg-zinc-600 text-white rounded-xl text-sm transition-all"

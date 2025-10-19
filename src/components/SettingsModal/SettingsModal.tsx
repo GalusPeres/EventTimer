@@ -93,9 +93,12 @@ export default function SettingsModal({
         { id: 'item-5', label: 'Siegerehrung', startTime: '19:45', endTime: '20:00' },
       ];
       settings.setScheduleItems(defaultItems);
+      settings.setScheduleHeight(100);
+      settings.setScheduleVisible(true);
     } else if (confirmAction === 'resetTournament') {
       settings.setTournamentName('WAIDLER TOURNAMENT');
       settings.setLogoPath('');
+      settings.setLogoOriginalPath('');
       settings.setHeaderVisible(true);
     }
     setShowConfirm(false);
@@ -264,7 +267,13 @@ export default function SettingsModal({
               setProgressBarLimitMinutes={setProgressBarLimitMinutes}
             />
           ) : tab === 'schedule' ? (
-            <ScheduleTab onFooterRender={setScheduleFooter} />
+            <ScheduleTab
+              onFooterRender={setScheduleFooter}
+              onResetRequest={() => {
+                setConfirmAction('resetSchedule');
+                setShowConfirm(true);
+              }}
+            />
           ) : tab === 'header' ? (
             <HeaderTab />
           ) : (
@@ -293,12 +302,16 @@ export default function SettingsModal({
                 </button>
                 <button
                   onClick={() => {
-                    if (countdownActive) {
+                    // Check if countdown settings were changed from default
+                    const isChanged = mode !== 'duration' || hours !== 3 || minutes !== 0 || targetTime !== '12:30' ||
+                                    !progressBarLimitEnabled || progressBarLimitHours !== 3 || progressBarLimitMinutes !== 0;
+
+                    if (countdownActive || isChanged) {
                       setConfirmAction('reset');
                       setShowConfirm(true);
                     } else {
+                      // Already at default and not active, just reset
                       onResetCountdown();
-                      // Reset timer settings to defaults
                       setMode('duration');
                       setHours(3);
                       setMinutes(0);
@@ -321,8 +334,23 @@ export default function SettingsModal({
           {tab === 'header' && (
             <button
               onClick={() => {
-                setConfirmAction('resetTournament');
-                setShowConfirm(true);
+                // Check if header was changed from default
+                const isChanged = settings.tournamentName !== 'WAIDLER TOURNAMENT' ||
+                                settings.logoPath !== '' ||
+                                settings.logoOriginalPath !== '' ||
+                                !settings.headerVisible ||
+                                settings.headerHeight !== 100;
+
+                if (isChanged) {
+                  setConfirmAction('resetTournament');
+                  setShowConfirm(true);
+                } else {
+                  // Already at default, just reset
+                  settings.setTournamentName('WAIDLER TOURNAMENT');
+                  settings.setLogoPath('');
+                  settings.setLogoOriginalPath('');
+                  settings.setHeaderVisible(true);
+                }
               }}
               className="px-4 py-2.5 bg-gradient-to-br from-blue-600 to-indigo-500 hover:from-blue-700 hover:to-indigo-600 border border-blue-500/30 text-white rounded-xl transition-all"
             >

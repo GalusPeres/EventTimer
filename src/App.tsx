@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { useSettings } from './context/SettingsContext';
 import SettingsModal from './components/SettingsModal/SettingsModal';
+import ConfirmModal from './components/ConfirmModal';
 import DragBar from './components/DragBar';
 import HoverControls from './components/HoverControls';
 import logo from './assets/logo.png';
@@ -31,6 +32,7 @@ export default function App() {
   const [hideCursor, setHideCursor] = useState(false);
   const [mouseInside, setMouseInside] = useState(true);
   const [currentTime, setCurrentTime] = useState<string>('');
+  const [showCloseConfirm, setShowCloseConfirm] = useState(false);
 
   const cursorTimeoutRef = useRef<number>();
 
@@ -184,6 +186,15 @@ export default function App() {
     setIsFullscreen(isFull);
   };
 
+  // Handle Close App
+  const handleCloseApp = () => {
+    if (countdownActive) {
+      setShowCloseConfirm(true);
+    } else {
+      window.electronAPI.closeApp();
+    }
+  };
+
   // Get current schedule item
   const getCurrentScheduleItem = () => {
     const now = new Date();
@@ -228,7 +239,7 @@ export default function App() {
       <HoverControls
         onSettings={() => setShowSettings(true)}
         onFullscreen={handleToggleFullscreen}
-        onClose={() => window.electronAPI.closeApp()}
+        onClose={handleCloseApp}
         visible={!hideControls}
         isFullscreen={isFullscreen}
       />
@@ -347,6 +358,21 @@ export default function App() {
         setProgressBarLimitHours={settings.setProgressBarLimitHours}
         progressBarLimitMinutes={settings.progressBarLimitMinutes}
         setProgressBarLimitMinutes={settings.setProgressBarLimitMinutes}
+      />
+
+      {/* Close Confirm Modal */}
+      <ConfirmModal
+        visible={showCloseConfirm}
+        title="Programm beenden"
+        message="Der Countdown läuft noch. Wirklich beenden?"
+        confirmText="Ja"
+        cancelText="Abbrechen"
+        onConfirm={() => {
+          window.electronAPI.closeApp();
+        }}
+        onCancel={() => {
+          setShowCloseConfirm(false);
+        }}
       />
     </div>
   );

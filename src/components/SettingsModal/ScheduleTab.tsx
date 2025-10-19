@@ -1,33 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useSettings, ScheduleItem } from '../../context/SettingsContext';
 
 type Props = {
   onFooterRender?: (footer: React.ReactNode) => void;
+  onResetRequest?: () => void;
 };
 
-export default function ScheduleTab({ onFooterRender }: Props) {
+export default function ScheduleTab({ onFooterRender, onResetRequest }: Props) {
   const settings = useSettings();
-  const [editingItems, setEditingItems] = useState<ScheduleItem[]>(settings.scheduleItems);
-  const [originalItems, setOriginalItems] = useState<ScheduleItem[]>(settings.scheduleItems);
-  const [isInitialized, setIsInitialized] = useState(false);
-
-  // Initialize once on mount
-  useEffect(() => {
-    if (!isInitialized) {
-      setEditingItems(settings.scheduleItems);
-      setOriginalItems(settings.scheduleItems);
-      setIsInitialized(true);
-    }
-  }, [isInitialized, settings.scheduleItems]);
-
-  // Check for changes
-  const hasChanges = JSON.stringify(editingItems) !== JSON.stringify(originalItems);
 
   const updateItem = (index: number, field: keyof ScheduleItem, value: string) => {
-    const newItems = [...editingItems];
+    const newItems = [...settings.scheduleItems];
     newItems[index] = { ...newItems[index], [field]: value };
-    setEditingItems(newItems);
-    setOriginalItems(newItems);
     settings.setScheduleItems(newItems);
   };
 
@@ -38,49 +22,14 @@ export default function ScheduleTab({ onFooterRender }: Props) {
       startTime: '00:00',
       endTime: '00:00',
     };
-    const newItems = [...editingItems, newItem];
-    setEditingItems(newItems);
-  };
-
-  const deleteItem = (index: number) => {
-    const newItems = editingItems.filter((_, i) => i !== index);
-    setEditingItems(newItems);
-    setOriginalItems(newItems);
+    const newItems = [...settings.scheduleItems, newItem];
     settings.setScheduleItems(newItems);
   };
 
-  const handleSave = () => {
-    settings.setScheduleItems(editingItems);
-    setOriginalItems(editingItems);
+  const deleteItem = (index: number) => {
+    const newItems = settings.scheduleItems.filter((_, i) => i !== index);
+    settings.setScheduleItems(newItems);
   };
-
-  const handleUndo = () => {
-    setEditingItems(originalItems);
-  };
-
-  const handleReset = () => {
-    const defaultItems = [
-      { id: 'item-1', label: 'Spiel 1', startTime: '09:30', endTime: '12:30' },
-      { id: 'item-2', label: 'Mittagspause', startTime: '12:30', endTime: '13:30' },
-      { id: 'item-3', label: 'Spiel 2', startTime: '13:30', endTime: '16:30' },
-      { id: 'item-4', label: 'Spiel 3', startTime: '16:45', endTime: '19:45' },
-      { id: 'item-5', label: 'Siegerehrung', startTime: '19:45', endTime: '20:00' },
-    ];
-    setEditingItems(defaultItems);
-    setOriginalItems(defaultItems);
-    settings.setScheduleItems(defaultItems);
-    settings.setScheduleHeight(100);
-  };
-
-  // Save changes when leaving the tab or closing modal
-  useEffect(() => {
-    return () => {
-      // Save on unmount if there are changes
-      if (hasChanges) {
-        settings.setScheduleItems(editingItems);
-      }
-    };
-  }, [editingItems, hasChanges, settings]);
 
   // Render footer buttons
   useEffect(() => {
@@ -97,7 +46,7 @@ export default function ScheduleTab({ onFooterRender }: Props) {
             Hinzufügen
           </button>
           <button
-            onClick={handleReset}
+            onClick={() => onResetRequest?.()}
             className="px-4 py-2.5 bg-gradient-to-br from-blue-600 to-indigo-500 hover:from-blue-700 hover:to-indigo-600 border border-blue-500/30 text-white rounded-xl transition-all"
           >
             Reset
@@ -181,7 +130,7 @@ export default function ScheduleTab({ onFooterRender }: Props) {
 
       {/* Schedule Items Table */}
       <div className="space-y-2">
-        {editingItems.map((item, index) => (
+        {settings.scheduleItems.map((item, index) => (
           <div key={item.id} className="grid grid-cols-[1fr,6rem,6rem,2.5rem] gap-2 items-center">
             <input
               type="text"

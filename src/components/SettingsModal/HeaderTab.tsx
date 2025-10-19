@@ -26,16 +26,28 @@ export default function HeaderTab() {
       };
       reader.readAsDataURL(file);
     }
+    // Reset input so same file can be selected again
+    e.target.value = '';
   };
 
   const handleEditClick = () => {
-    // Always use original for editing
+    // Always use original for editing, or default logo if nothing set
     const imageToEdit = settings.logoOriginalPath || settings.logoPath || defaultLogo;
     setTempImageSrc(imageToEdit);
+
+    // If using default logo and no original exists, set it as original
+    if (!settings.logoOriginalPath && !settings.logoPath) {
+      settings.setLogoOriginalPath(defaultLogo);
+    }
+
     setShowEditor(true);
   };
 
   const handleEditorSave = (croppedImage: string) => {
+    // If original wasn't set (using default), set it now
+    if (!settings.logoOriginalPath) {
+      settings.setLogoOriginalPath(tempImageSrc);
+    }
     settings.setLogoPath(croppedImage);
   };
 
@@ -141,12 +153,7 @@ export default function HeaderTab() {
             </button>
             <button
               onClick={handleEditClick}
-              disabled={!settings.logoOriginalPath && !settings.logoPath}
-              className={`px-4 py-2.5 rounded-xl transition-all text-sm ${
-                settings.logoOriginalPath || settings.logoPath
-                  ? 'bg-gradient-to-br from-blue-600 to-indigo-500 hover:from-blue-700 hover:to-indigo-600 border border-blue-500/30 text-white'
-                  : 'bg-zinc-800 border border-zinc-600 text-zinc-500 cursor-not-allowed'
-              }`}
+              className="px-4 py-2.5 bg-gradient-to-br from-blue-600 to-indigo-500 hover:from-blue-700 hover:to-indigo-600 border border-blue-500/30 text-white rounded-xl transition-all text-sm"
             >
               Anpassen
             </button>

@@ -12,7 +12,7 @@ type Props = {
 export default function LogoEditorModal({ visible, onClose, imageSrc, onSave }: Props) {
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
-  const [aspect, setAspect] = useState<number | undefined>(undefined); // undefined = free aspect
+  const [aspect, setAspect] = useState<number>(1); // Default to 1:1
   const [croppedAreaPixels, setCroppedAreaPixels] = useState<Area | null>(null);
 
   const onCropComplete = useCallback((croppedArea: Area, croppedAreaPixels: Area) => {
@@ -78,7 +78,7 @@ export default function LogoEditorModal({ visible, onClose, imageSrc, onSave }: 
       style={{ pointerEvents: 'auto' }}
     >
       <div
-        className="bg-gradient-to-br from-blue-900/70 to-green-900/70 backdrop-blur-xl rounded-2xl border border-zinc-700 shadow-[0_0_70px_rgba(0,0,0,0.8)] w-[40rem] max-w-[90vw] h-[32rem] max-h-[90vh] flex flex-col overflow-hidden animate-fade-in"
+        className="bg-gradient-to-br from-blue-900/70 to-green-900/70 backdrop-blur-xl rounded-2xl border border-zinc-700 shadow-[0_0_70px_rgba(0,0,0,0.8)] w-[40rem] max-w-[90vw] h-[36rem] max-h-[90vh] flex flex-col overflow-hidden animate-fade-in"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
@@ -93,7 +93,15 @@ export default function LogoEditorModal({ visible, onClose, imageSrc, onSave }: 
         </div>
 
         {/* Crop Area */}
-        <div className="flex-1 relative bg-zinc-900/75">
+        <div
+          className="flex-1 relative bg-zinc-900/75"
+          onWheel={(e) => {
+            e.preventDefault();
+            const delta = e.deltaY > 0 ? -0.125 : 0.125;
+            const newZoom = Math.min(3, Math.max(1, zoom + delta));
+            setZoom(newZoom);
+          }}
+        >
           <Cropper
             image={imageSrc}
             crop={crop}
@@ -102,25 +110,16 @@ export default function LogoEditorModal({ visible, onClose, imageSrc, onSave }: 
             onCropChange={setCrop}
             onZoomChange={setZoom}
             onCropComplete={onCropComplete}
+            zoomWithScroll={false}
           />
         </div>
 
         {/* Controls */}
-        <div className="px-6 py-4 bg-zinc-900/75 space-y-3">
+        <div className="px-6 py-3 bg-zinc-900/75 space-y-2">
           {/* Aspect Ratio Buttons */}
           <div className="flex items-center gap-2">
             <span className="text-sm text-white/90 w-24">Seitenverhältnis</span>
             <div className="flex gap-2">
-              <button
-                onClick={() => setAspect(undefined)}
-                className={`px-3 py-1.5 text-xs rounded transition-all ${
-                  aspect === undefined
-                    ? 'bg-blue-600 text-white'
-                    : 'bg-zinc-700 text-white/80 hover:bg-zinc-600'
-                }`}
-              >
-                Frei
-              </button>
               <button
                 onClick={() => setAspect(1)}
                 className={`px-3 py-1.5 text-xs rounded transition-all ${
@@ -161,9 +160,11 @@ export default function LogoEditorModal({ visible, onClose, imageSrc, onSave }: 
               type="range"
               min={1}
               max={3}
-              step={0.1}
+              step={0.01}
               value={zoom}
-              onChange={(e) => setZoom(Number(e.target.value))}
+              onChange={(e) => {
+                setZoom(Number(e.target.value));
+              }}
               className="flex-1 height-range"
               style={{
                 ['--val' as any]: `${((zoom - 1) / (3 - 1)) * 100}%`,
@@ -174,12 +175,12 @@ export default function LogoEditorModal({ visible, onClose, imageSrc, onSave }: 
                 (e.target as HTMLInputElement).style.setProperty('--val', `${percentage}%`);
               }}
             />
-            <span className="text-sm text-white/90 w-12">{zoom.toFixed(1)}x</span>
+            <span className="text-sm text-white/90 w-12">{zoom.toFixed(2)}x</span>
           </div>
         </div>
 
         {/* Footer */}
-        <div className="px-6 py-4 relative flex justify-center gap-3 no-drag bg-zinc-900/75">
+        <div className="px-6 py-4 relative flex justify-center gap-3 no-drag bg-zinc-900/75 rounded-b-2xl">
           <div className="absolute top-0 left-4 right-4 border-t-2 border-zinc-600/40"></div>
           <button
             onClick={onClose}

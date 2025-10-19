@@ -11,6 +11,8 @@ export default function TimeInput({ value, onChange, className = '' }: TimeInput
   const [selectedHour, setSelectedHour] = useState('09');
   const [selectedMinute, setSelectedMinute] = useState('00');
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const hourScrollRef = useRef<HTMLDivElement>(null);
+  const minuteScrollRef = useRef<HTMLDivElement>(null);
 
   // Parse value when it changes
   useEffect(() => {
@@ -20,6 +22,28 @@ export default function TimeInput({ value, onChange, className = '' }: TimeInput
       setSelectedMinute(m || '00');
     }
   }, [value]);
+
+  // Scroll to selected items when opening
+  useEffect(() => {
+    if (isOpen && hourScrollRef.current && minuteScrollRef.current) {
+      // Scroll hour
+      const hourIndex = parseInt(selectedHour);
+      const hourElement = hourScrollRef.current.children[hourIndex] as HTMLElement;
+      if (hourElement) {
+        hourScrollRef.current.scrollTop = hourElement.offsetTop - hourScrollRef.current.offsetTop - 60;
+      }
+
+      // Scroll minute
+      const minutes = ['00', '15', '30', '45'];
+      const minuteIndex = minutes.indexOf(selectedMinute);
+      if (minuteIndex >= 0) {
+        const minuteElement = minuteScrollRef.current.children[minuteIndex] as HTMLElement;
+        if (minuteElement) {
+          minuteScrollRef.current.scrollTop = minuteElement.offsetTop - minuteScrollRef.current.offsetTop - 60;
+        }
+      }
+    }
+  }, [isOpen, selectedHour, selectedMinute]);
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -36,18 +60,16 @@ export default function TimeInput({ value, onChange, className = '' }: TimeInput
   }, [isOpen]);
 
   const hours = Array.from({ length: 24 }, (_, i) => String(i).padStart(2, '0'));
-  const minutes = ['00', '15', '30', '45']; // Nur 15-Minuten-Schritte
+  const minutes = ['00', '15', '30', '45'];
 
   const handleHourClick = (hour: string) => {
     setSelectedHour(hour);
     onChange(`${hour}:${selectedMinute}`);
-    setIsOpen(false);
   };
 
   const handleMinuteClick = (minute: string) => {
     setSelectedMinute(minute);
     onChange(`${selectedHour}:${minute}`);
-    setIsOpen(false);
   };
 
   return (
@@ -65,22 +87,26 @@ export default function TimeInput({ value, onChange, className = '' }: TimeInput
         </svg>
       </button>
 
-      {/* Dropdown */}
+      {/* Dropdown - Scrollable Columns */}
       {isOpen && (
-        <div className="absolute top-full left-0 mt-1 bg-zinc-800 border border-zinc-600 rounded-lg shadow-xl z-50 p-2 grid grid-cols-2 gap-2">
-          {/* Hours */}
-          <div>
-            <div className="text-xs text-white/60 mb-1 px-2">Stunde</div>
-            <div className="grid grid-cols-4 gap-1">
+        <div className="absolute bottom-full left-0 mb-1 bg-zinc-800 border border-zinc-600 rounded-lg shadow-xl z-50 flex">
+          {/* Hours Column */}
+          <div className="flex flex-col border-r border-zinc-600">
+            <div className="text-xs text-white/60 text-center py-2 border-b border-zinc-600">Stunde</div>
+            <div
+              ref={hourScrollRef}
+              className="overflow-y-auto h-40 scrollbar-thin scrollbar-thumb-zinc-600 scrollbar-track-zinc-800"
+              style={{ scrollbarWidth: 'thin' }}
+            >
               {hours.map((hour) => (
                 <button
                   key={hour}
                   type="button"
                   onClick={() => handleHourClick(hour)}
-                  className={`px-2 py-1.5 text-xs rounded transition-colors ${
+                  className={`w-full px-4 py-2 text-sm transition-colors ${
                     selectedHour === hour
                       ? 'bg-blue-600 text-white'
-                      : 'bg-zinc-700 text-white/80 hover:bg-zinc-600'
+                      : 'text-white/80 hover:bg-zinc-700'
                   }`}
                 >
                   {hour}
@@ -89,19 +115,23 @@ export default function TimeInput({ value, onChange, className = '' }: TimeInput
             </div>
           </div>
 
-          {/* Minutes */}
-          <div>
-            <div className="text-xs text-white/60 mb-1 px-2">Minute</div>
-            <div className="grid grid-cols-2 gap-1">
+          {/* Minutes Column */}
+          <div className="flex flex-col">
+            <div className="text-xs text-white/60 text-center py-2 border-b border-zinc-600">Minute</div>
+            <div
+              ref={minuteScrollRef}
+              className="overflow-y-auto h-40 scrollbar-thin scrollbar-thumb-zinc-600 scrollbar-track-zinc-800"
+              style={{ scrollbarWidth: 'thin' }}
+            >
               {minutes.map((minute) => (
                 <button
                   key={minute}
                   type="button"
                   onClick={() => handleMinuteClick(minute)}
-                  className={`px-2 py-1.5 text-xs rounded transition-colors ${
+                  className={`w-full px-4 py-2 text-sm transition-colors ${
                     selectedMinute === minute
                       ? 'bg-blue-600 text-white'
-                      : 'bg-zinc-700 text-white/80 hover:bg-zinc-600'
+                      : 'text-white/80 hover:bg-zinc-700'
                   }`}
                 >
                   {minute}

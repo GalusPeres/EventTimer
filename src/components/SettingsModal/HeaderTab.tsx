@@ -20,6 +20,8 @@ export default function HeaderTab() {
       const reader = new FileReader();
       reader.onloadend = () => {
         const dataUrl = reader.result as string;
+        // Save both original and display version
+        settings.setLogoOriginalPath(dataUrl);
         settings.setLogoPath(dataUrl);
       };
       reader.readAsDataURL(file);
@@ -27,7 +29,9 @@ export default function HeaderTab() {
   };
 
   const handleEditClick = () => {
-    setTempImageSrc(settings.logoPath || defaultLogo);
+    // Always use original for editing
+    const imageToEdit = settings.logoOriginalPath || settings.logoPath || defaultLogo;
+    setTempImageSrc(imageToEdit);
     setShowEditor(true);
   };
 
@@ -137,9 +141,9 @@ export default function HeaderTab() {
             </button>
             <button
               onClick={handleEditClick}
-              disabled={!settings.logoPath}
+              disabled={!settings.logoOriginalPath && !settings.logoPath}
               className={`px-4 py-2.5 rounded-xl transition-all text-sm ${
-                settings.logoPath
+                settings.logoOriginalPath || settings.logoPath
                   ? 'bg-gradient-to-br from-blue-600 to-indigo-500 hover:from-blue-700 hover:to-indigo-600 border border-blue-500/30 text-white'
                   : 'bg-zinc-800 border border-zinc-600 text-zinc-500 cursor-not-allowed'
               }`}

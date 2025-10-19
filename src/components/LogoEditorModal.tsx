@@ -12,6 +12,7 @@ type Props = {
 export default function LogoEditorModal({ visible, onClose, imageSrc, onSave }: Props) {
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
+  const [aspect, setAspect] = useState<number | undefined>(undefined); // undefined = free aspect
   const [croppedAreaPixels, setCroppedAreaPixels] = useState<Area | null>(null);
 
   const onCropComplete = useCallback((croppedArea: Area, croppedAreaPixels: Area) => {
@@ -97,17 +98,65 @@ export default function LogoEditorModal({ visible, onClose, imageSrc, onSave }: 
             image={imageSrc}
             crop={crop}
             zoom={zoom}
-            aspect={1}
+            aspect={aspect}
             onCropChange={setCrop}
             onZoomChange={setZoom}
             onCropComplete={onCropComplete}
           />
         </div>
 
-        {/* Zoom Slider */}
-        <div className="px-6 py-4 bg-zinc-900/75">
+        {/* Controls */}
+        <div className="px-6 py-4 bg-zinc-900/75 space-y-3">
+          {/* Aspect Ratio Buttons */}
+          <div className="flex items-center gap-2">
+            <span className="text-sm text-white/90 w-24">Seitenverhältnis</span>
+            <div className="flex gap-2">
+              <button
+                onClick={() => setAspect(undefined)}
+                className={`px-3 py-1.5 text-xs rounded transition-all ${
+                  aspect === undefined
+                    ? 'bg-blue-600 text-white'
+                    : 'bg-zinc-700 text-white/80 hover:bg-zinc-600'
+                }`}
+              >
+                Frei
+              </button>
+              <button
+                onClick={() => setAspect(1)}
+                className={`px-3 py-1.5 text-xs rounded transition-all ${
+                  aspect === 1
+                    ? 'bg-blue-600 text-white'
+                    : 'bg-zinc-700 text-white/80 hover:bg-zinc-600'
+                }`}
+              >
+                1:1
+              </button>
+              <button
+                onClick={() => setAspect(16/9)}
+                className={`px-3 py-1.5 text-xs rounded transition-all ${
+                  aspect === 16/9
+                    ? 'bg-blue-600 text-white'
+                    : 'bg-zinc-700 text-white/80 hover:bg-zinc-600'
+                }`}
+              >
+                16:9
+              </button>
+              <button
+                onClick={() => setAspect(4/3)}
+                className={`px-3 py-1.5 text-xs rounded transition-all ${
+                  aspect === 4/3
+                    ? 'bg-blue-600 text-white'
+                    : 'bg-zinc-700 text-white/80 hover:bg-zinc-600'
+                }`}
+              >
+                4:3
+              </button>
+            </div>
+          </div>
+
+          {/* Zoom Slider */}
           <div className="flex items-center gap-3">
-            <span className="text-sm text-white/90">Zoom</span>
+            <span className="text-sm text-white/90 w-24">Zoom</span>
             <input
               type="range"
               min={1}

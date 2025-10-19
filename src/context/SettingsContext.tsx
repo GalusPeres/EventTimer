@@ -11,6 +11,7 @@ export type Settings = {
   // Tournament Info
   tournamentName: string;
   logoPath: string;
+  logoOriginalPath: string; // Store original uncropped logo
   headerVisible: boolean;
   headerHeight: number;
 
@@ -30,6 +31,7 @@ export type Settings = {
   // Setters
   setTournamentName(v: string): void;
   setLogoPath(v: string): void;
+  setLogoOriginalPath(v: string): void;
   setHeaderVisible(v: boolean): void;
   setHeaderHeight(v: number): void;
   setCurrentGame(v: number): void;
@@ -60,6 +62,7 @@ const loadAllSettings = () => {
 const DEFAULT_SETTINGS = {
   tournamentName: 'WAIDLER TOURNAMENT',
   logoPath: '',
+  logoOriginalPath: '',
   headerVisible: true,
   headerHeight: 100,
   currentGame: 1,
@@ -86,6 +89,7 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
   const {
     tournamentName,
     logoPath,
+    logoOriginalPath,
     headerVisible,
     headerHeight,
     currentGame,
@@ -127,6 +131,7 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
 
   const setTournamentName = useMemo(() => createSetter('tournamentName'), [createSetter]);
   const setLogoPath = useMemo(() => createSetter('logoPath'), [createSetter]);
+  const setLogoOriginalPath = useMemo(() => createSetter('logoOriginalPath'), [createSetter]);
   const setHeaderVisible = useMemo(() => createSetter('headerVisible'), [createSetter]);
   const setHeaderHeight = useMemo(() => createSetter('headerHeight'), [createSetter]);
   const setCurrentGame = useMemo(() => createSetter('currentGame'), [createSetter]);
@@ -140,6 +145,7 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
   const value: Settings = useMemo(() => ({
     tournamentName,
     logoPath,
+    logoOriginalPath,
     headerVisible,
     headerHeight,
     currentGame,
@@ -151,6 +157,7 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
     progressBarLimitMinutes,
     setTournamentName,
     setLogoPath,
+    setLogoOriginalPath,
     setHeaderVisible,
     setHeaderHeight,
     setCurrentGame,

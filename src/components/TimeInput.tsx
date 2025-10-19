@@ -86,9 +86,9 @@ export default function TimeInput({ value, onChange, className = '' }: TimeInput
 
       {/* Dropdown - Scrollable Columns */}
       {isOpen && (
-        <div className="absolute bottom-full left-0 mb-1 bg-zinc-800 border border-zinc-600 rounded-lg shadow-xl z-[100] flex">
+        <div className="absolute top-full left-0 mt-1 bg-zinc-800 border border-zinc-600 rounded-lg shadow-xl z-[100] flex">
           {/* Hours Column */}
-          <div className="flex flex-col border-r border-zinc-600 w-16">
+          <div className="flex flex-col border-r border-zinc-600 w-14">
             <div
               ref={hourScrollRef}
               className="overflow-y-auto h-40 scrollbar-hide"
@@ -98,7 +98,7 @@ export default function TimeInput({ value, onChange, className = '' }: TimeInput
                   key={hour}
                   type="button"
                   onClick={() => handleHourClick(hour)}
-                  className={`w-full px-3 py-0.5 text-sm transition-colors ${
+                  className={`w-full px-2 py-0.5 text-sm transition-colors ${
                     selectedHour === hour
                       ? 'bg-blue-600 text-white'
                       : 'text-white/80 hover:bg-zinc-700'
@@ -111,7 +111,7 @@ export default function TimeInput({ value, onChange, className = '' }: TimeInput
           </div>
 
           {/* Minutes Column */}
-          <div className="flex flex-col w-16">
+          <div className="flex flex-col w-14">
             <div
               ref={minuteScrollRef}
               className="overflow-y-auto h-40 scrollbar-hide"
@@ -121,7 +121,7 @@ export default function TimeInput({ value, onChange, className = '' }: TimeInput
                   key={minute}
                   type="button"
                   onClick={() => handleMinuteClick(minute)}
-                  className={`w-full px-3 py-0.5 text-sm transition-colors ${
+                  className={`w-full px-2 py-0.5 text-sm transition-colors ${
                     selectedMinute === minute
                       ? 'bg-blue-600 text-white'
                       : 'text-white/80 hover:bg-zinc-700'

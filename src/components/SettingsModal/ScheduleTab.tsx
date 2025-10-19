@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useSettings, ScheduleItem } from '../../context/SettingsContext';
-import TimeInput from '../TimeInput';
 
 type Props = {
   onFooterRender?: (footer: React.ReactNode) => void;
@@ -191,13 +190,19 @@ export default function ScheduleTab({ onFooterRender }: Props) {
               className="px-3 py-2 bg-zinc-900 border border-zinc-700 rounded-lg text-white text-sm focus:outline-none focus:border-blue-500"
               placeholder="Bezeichnung"
             />
-            <TimeInput
+            <input
+              type="time"
               value={item.startTime}
-              onChange={(value) => updateItem(index, 'startTime', value)}
+              onChange={(e) => updateItem(index, 'startTime', e.target.value)}
+              className="px-2 py-2 bg-zinc-900 border border-zinc-700 rounded-lg text-white text-sm focus:outline-none focus:border-blue-500"
+              style={{ colorScheme: 'dark' }}
             />
-            <TimeInput
+            <input
+              type="time"
               value={item.endTime}
-              onChange={(value) => updateItem(index, 'endTime', value)}
+              onChange={(e) => updateItem(index, 'endTime', e.target.value)}
+              className="px-2 py-2 bg-zinc-900 border border-zinc-700 rounded-lg text-white text-sm focus:outline-none focus:border-blue-500"
+              style={{ colorScheme: 'dark' }}
             />
             <button
               onClick={() => deleteItem(index)}

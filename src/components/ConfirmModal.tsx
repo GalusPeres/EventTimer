@@ -32,7 +32,7 @@ export default function ConfirmModal({
     >
       <div
         className="
-          bg-gradient-to-br from-blue-900/90 to-green-900/90
+          bg-gradient-to-br from-blue-900/70 to-green-900/70
           backdrop-blur-xl
           rounded-2xl
           border border-zinc-700
@@ -44,7 +44,7 @@ export default function ConfirmModal({
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="px-6 py-4 border-b border-zinc-600/40">
+        <div className="px-6 py-3 border-b border-zinc-600/40">
           <h3 className="text-white text-lg">{title}</h3>
         </div>
 
@@ -58,13 +58,13 @@ export default function ConfirmModal({
           <div className="absolute top-0 left-4 right-4 border-t-2 border-zinc-600/40"></div>
           <button
             onClick={onCancel}
-            className="px-4 py-2 bg-zinc-700 hover:bg-zinc-600 text-white rounded-xl text-sm transition-all"
+            className="px-4 py-2.5 bg-gradient-to-br from-zinc-700 to-zinc-600 hover:from-zinc-600 hover:to-zinc-500 border border-zinc-500/30 text-white rounded-xl transition-all"
           >
             {cancelText}
           </button>
           <button
             onClick={onConfirm}
-            className="px-4 py-2 bg-gradient-to-br from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 border border-red-500/30 text-white rounded-xl text-sm transition-all"
+            className="px-4 py-2.5 bg-gradient-to-br from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 border border-red-500/30 text-white rounded-xl transition-all"
           >
             {confirmText}
           </button>

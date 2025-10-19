@@ -85,7 +85,7 @@ export default function LogoEditorModal({ visible, onClose, imageSrc, onSave }: 
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="flex justify-between items-center px-6 py-3 no-drag backdrop-blur-xl bg-gradient-to-br from-blue-900/50 to-green-900/50">
+        <div className="flex justify-between items-center px-6 py-3 no-drag border-b border-zinc-600/40">
           <h3 className="text-white text-lg">Logo anpassen</h3>
           <button
             onClick={onClose}
@@ -120,36 +120,36 @@ export default function LogoEditorModal({ visible, onClose, imageSrc, onSave }: 
         {/* Controls */}
         <div className="px-6 py-4 bg-zinc-900/75 space-y-3">
           {/* Aspect Ratio Buttons */}
-          <div className="flex items-center gap-2">
-            <span className="text-sm text-white/90 w-24">Seitenverhältnis</span>
+          <div className="flex items-center gap-3">
+            <span className="text-base text-white">Seitenverhältnis:</span>
             <div className="flex gap-2">
               <button
                 onClick={() => setAspect(1)}
-                className={`px-3 py-1.5 text-xs rounded transition-all ${
+                className={`px-3 py-1 rounded-full border text-sm transition-all ${
                   aspect === 1
-                    ? 'bg-blue-600 text-white'
-                    : 'bg-zinc-700 text-white/80 hover:bg-zinc-600'
-                }`}
+                    ? 'bg-gradient-to-br from-blue-600 to-indigo-500 border-blue-500 text-white'
+                    : 'bg-gradient-to-br from-zinc-800/50 to-zinc-700/50 border-zinc-600/50 text-white/80 hover:text-white hover:from-zinc-700/70 hover:to-zinc-600/70'
+                } focus:outline-none`}
               >
                 1:1
               </button>
               <button
                 onClick={() => setAspect(16/9)}
-                className={`px-3 py-1.5 text-xs rounded transition-all ${
+                className={`px-3 py-1 rounded-full border text-sm transition-all ${
                   aspect === 16/9
-                    ? 'bg-blue-600 text-white'
-                    : 'bg-zinc-700 text-white/80 hover:bg-zinc-600'
-                }`}
+                    ? 'bg-gradient-to-br from-blue-600 to-indigo-500 border-blue-500 text-white'
+                    : 'bg-gradient-to-br from-zinc-800/50 to-zinc-700/50 border-zinc-600/50 text-white/80 hover:text-white hover:from-zinc-700/70 hover:to-zinc-600/70'
+                } focus:outline-none`}
               >
                 16:9
               </button>
               <button
                 onClick={() => setAspect(4/3)}
-                className={`px-3 py-1.5 text-xs rounded transition-all ${
+                className={`px-3 py-1 rounded-full border text-sm transition-all ${
                   aspect === 4/3
-                    ? 'bg-blue-600 text-white'
-                    : 'bg-zinc-700 text-white/80 hover:bg-zinc-600'
-                }`}
+                    ? 'bg-gradient-to-br from-blue-600 to-indigo-500 border-blue-500 text-white'
+                    : 'bg-gradient-to-br from-zinc-800/50 to-zinc-700/50 border-zinc-600/50 text-white/80 hover:text-white hover:from-zinc-700/70 hover:to-zinc-600/70'
+                } focus:outline-none`}
               >
                 4:3
               </button>
@@ -158,7 +158,7 @@ export default function LogoEditorModal({ visible, onClose, imageSrc, onSave }: 
 
           {/* Zoom Slider */}
           <div className="flex items-center gap-3">
-            <span className="text-sm text-white/90 w-24">Zoom</span>
+            <label className="w-20 shrink-0">Zoom:</label>
             <input
               type="range"
               min={1}
@@ -166,7 +166,9 @@ export default function LogoEditorModal({ visible, onClose, imageSrc, onSave }: 
               step={0.01}
               value={zoom}
               onChange={(e) => {
-                setZoom(Number(e.target.value));
+                const val = Number(e.target.value);
+                setZoom(val);
+                (e.target as HTMLInputElement).style.setProperty('--val', `${((val - 1) / (3 - 1)) * 100}%`);
               }}
               className="flex-1 height-range"
               style={{
@@ -178,7 +180,7 @@ export default function LogoEditorModal({ visible, onClose, imageSrc, onSave }: 
                 (e.target as HTMLInputElement).style.setProperty('--val', `${percentage}%`);
               }}
             />
-            <span className="text-sm text-white/90 w-12">{zoom.toFixed(2)}x</span>
+            <span className="w-12 text-right shrink-0">{zoom.toFixed(3).replace('.', ',')}x</span>
           </div>
         </div>
 

@@ -139,13 +139,13 @@ export default function HeaderTab({ onOpenLogoEditor }: Props) {
           <div className="flex gap-2">
             <button
               onClick={handleLogoClick}
-              className="px-4 py-2.5 bg-gradient-to-br from-blue-500 to-green-600 hover:from-blue-600 hover:to-green-700 border border-green-500/30 text-white rounded-xl transition-all text-sm"
+              className="px-4 py-2.5 bg-gradient-to-br from-blue-500 to-green-600 hover:from-blue-600 hover:to-green-700 border border-green-500/30 text-white rounded-xl transition-all"
             >
               Auswählen
             </button>
             <button
               onClick={handleEditClick}
-              className="px-4 py-2.5 bg-gradient-to-br from-blue-600 to-indigo-500 hover:from-blue-700 hover:to-indigo-600 border border-blue-500/30 text-white rounded-xl transition-all text-sm"
+              className="px-4 py-2.5 bg-gradient-to-br from-blue-600 to-indigo-500 hover:from-blue-700 hover:to-indigo-600 border border-blue-500/30 text-white rounded-xl transition-all"
             >
               Anpassen
             </button>

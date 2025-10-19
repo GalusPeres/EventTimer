@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSettings, ScheduleItem } from '../../context/SettingsContext';
+import TimeInput from '../TimeInput';
 
 type Props = {
   onFooterRender?: (footer: React.ReactNode) => void;
@@ -45,6 +46,8 @@ export default function ScheduleTab({ onFooterRender }: Props) {
   const deleteItem = (index: number) => {
     const newItems = editingItems.filter((_, i) => i !== index);
     setEditingItems(newItems);
+    setOriginalItems(newItems);
+    settings.setScheduleItems(newItems);
   };
 
   const handleSave = () => {
@@ -188,19 +191,13 @@ export default function ScheduleTab({ onFooterRender }: Props) {
               className="px-3 py-2 bg-zinc-900 border border-zinc-700 rounded-lg text-white text-sm focus:outline-none focus:border-blue-500"
               placeholder="Bezeichnung"
             />
-            <input
-              type="time"
+            <TimeInput
               value={item.startTime}
-              onChange={(e) => updateItem(index, 'startTime', e.target.value)}
-              className="px-2 py-2 bg-zinc-900 border border-zinc-700 rounded-lg text-white text-sm focus:outline-none focus:border-blue-500"
-              style={{ colorScheme: 'dark' }}
+              onChange={(value) => updateItem(index, 'startTime', value)}
             />
-            <input
-              type="time"
+            <TimeInput
               value={item.endTime}
-              onChange={(e) => updateItem(index, 'endTime', e.target.value)}
-              className="px-2 py-2 bg-zinc-900 border border-zinc-700 rounded-lg text-white text-sm focus:outline-none focus:border-blue-500"
-              style={{ colorScheme: 'dark' }}
+              onChange={(value) => updateItem(index, 'endTime', value)}
             />
             <button
               onClick={() => deleteItem(index)}

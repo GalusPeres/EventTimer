@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSettings } from '../../context/SettingsContext';
 import { SimpleSelect } from '../SimpleSelect';
+import TimeInput from '../TimeInput';
 
 type Props = {
   mode: 'duration' | 'target';
@@ -153,15 +154,11 @@ export default function TimerTab({ mode, setMode, hours, setHours, minutes, setM
 
             {/* Target Time Mode Input */}
             {mode === 'target' && (
-                <div className="relative ml-auto">
-                  <input
-                    type="time"
+                <div className="ml-auto w-36">
+                  <TimeInput
                     value={targetTime}
-                    onChange={(e) => setTargetTime(e.target.value)}
-                    className="w-36 h-9 pl-2 pr-12 bg-zinc-900 border border-zinc-700 rounded-lg text-white focus:outline-none focus:border-blue-500"
-                    style={{ colorScheme: 'dark' }}
+                    onChange={(value) => setTargetTime(value)}
                   />
-                  <span className="absolute right-2 top-1/2 -translate-y-1/2 text-xs text-white/40 pointer-events-none">Uhr</span>
                 </div>
             )}
           </div>

@@ -5,6 +5,7 @@ import ScheduleTab from './ScheduleTab';
 import HeaderTab from './HeaderTab';
 import AboutTab from './AboutTab';
 import ConfirmModal from '../ConfirmModal';
+import LogoEditorModal from '../LogoEditorModal';
 
 type Props = {
   visible: boolean;
@@ -51,6 +52,10 @@ export default function SettingsModal({
   // Confirm modal state
   const [showConfirm, setShowConfirm] = useState(false);
   const [confirmAction, setConfirmAction] = useState<'stop' | 'reset' | 'resetSchedule' | 'resetTournament' | null>(null);
+
+  // Logo editor state
+  const [showLogoEditor, setShowLogoEditor] = useState(false);
+  const [logoEditorImage, setLogoEditorImage] = useState('');
 
   // Schedule footer content
   const [scheduleFooter, setScheduleFooter] = useState<React.ReactNode>(null);
@@ -275,7 +280,12 @@ export default function SettingsModal({
               }}
             />
           ) : tab === 'header' ? (
-            <HeaderTab />
+            <HeaderTab
+              onOpenLogoEditor={(imageSrc) => {
+                setLogoEditorImage(imageSrc);
+                setShowLogoEditor(true);
+              }}
+            />
           ) : (
             <AboutTab />
           )}
@@ -402,6 +412,21 @@ export default function SettingsModal({
         onCancel={() => {
           setShowConfirm(false);
           setConfirmAction(null);
+        }}
+      />
+
+      {/* Logo Editor Modal */}
+      <LogoEditorModal
+        visible={showLogoEditor}
+        imageSrc={logoEditorImage}
+        onClose={() => setShowLogoEditor(false)}
+        onSave={(croppedImage) => {
+          // If original wasn't set (using default), set it now
+          if (!settings.logoOriginalPath) {
+            settings.setLogoOriginalPath(logoEditorImage);
+          }
+          settings.setLogoPath(croppedImage);
+          setShowLogoEditor(false);
         }}
       />
     </div>

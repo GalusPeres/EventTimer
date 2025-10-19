@@ -73,16 +73,19 @@ export default function LogoEditorModal({ visible, onClose, imageSrc, onSave }: 
 
   return (
     <div
-      className="fixed inset-0 flex items-center justify-center z-[200]"
-      onClick={onClose}
+      className="fixed inset-0 flex items-center justify-center z-[200] bg-black/20"
+      onClick={(e) => {
+        e.stopPropagation();
+        onClose();
+      }}
       style={{ pointerEvents: 'auto' }}
     >
       <div
-        className="bg-gradient-to-br from-blue-900/70 to-green-900/70 backdrop-blur-xl rounded-2xl border border-zinc-700 shadow-[0_0_70px_rgba(0,0,0,0.8)] w-[40rem] max-w-[90vw] h-[36rem] max-h-[90vh] flex flex-col overflow-hidden animate-fade-in"
+        className="bg-gradient-to-br from-blue-900/70 to-green-900/70 backdrop-blur-xl rounded-2xl border border-zinc-700 shadow-[0_0_70px_rgba(0,0,0,0.8)] w-[26rem] max-w-[90vw] h-[30rem] max-h-[90vh] flex flex-col overflow-hidden animate-fade-in"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="flex justify-between items-center px-6 py-3 no-drag">
+        <div className="flex justify-between items-center px-6 py-3 no-drag backdrop-blur-xl bg-gradient-to-br from-blue-900/50 to-green-900/50">
           <h3 className="text-white text-lg">Logo anpassen</h3>
           <button
             onClick={onClose}
@@ -115,7 +118,7 @@ export default function LogoEditorModal({ visible, onClose, imageSrc, onSave }: 
         </div>
 
         {/* Controls */}
-        <div className="px-6 py-3 bg-zinc-900/75 space-y-2">
+        <div className="px-6 py-4 bg-zinc-900/75 space-y-3">
           {/* Aspect Ratio Buttons */}
           <div className="flex items-center gap-2">
             <span className="text-sm text-white/90 w-24">Seitenverhältnis</span>

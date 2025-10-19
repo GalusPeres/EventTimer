@@ -1,13 +1,14 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import { useSettings } from '../../context/SettingsContext';
 import defaultLogo from '../../assets/logo.png';
-import LogoEditorModal from '../LogoEditorModal';
 
-export default function HeaderTab() {
+type Props = {
+  onOpenLogoEditor: (imageSrc: string) => void;
+};
+
+export default function HeaderTab({ onOpenLogoEditor }: Props) {
   const settings = useSettings();
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const [showEditor, setShowEditor] = useState(false);
-  const [tempImageSrc, setTempImageSrc] = useState('');
 
   const handleLogoClick = () => {
     fileInputRef.current?.click();
@@ -33,22 +34,13 @@ export default function HeaderTab() {
   const handleEditClick = () => {
     // Always use original for editing, or default logo if nothing set
     const imageToEdit = settings.logoOriginalPath || settings.logoPath || defaultLogo;
-    setTempImageSrc(imageToEdit);
 
     // If using default logo and no original exists, set it as original
     if (!settings.logoOriginalPath && !settings.logoPath) {
       settings.setLogoOriginalPath(defaultLogo);
     }
 
-    setShowEditor(true);
-  };
-
-  const handleEditorSave = (croppedImage: string) => {
-    // If original wasn't set (using default), set it now
-    if (!settings.logoOriginalPath) {
-      settings.setLogoOriginalPath(tempImageSrc);
-    }
-    settings.setLogoPath(croppedImage);
+    onOpenLogoEditor(imageToEdit);
   };
 
   const currentLogo = settings.logoPath || defaultLogo;
@@ -169,14 +161,6 @@ export default function HeaderTab() {
           className="hidden"
         />
       </div>
-
-      {/* Logo Editor Modal */}
-      <LogoEditorModal
-        visible={showEditor}
-        onClose={() => setShowEditor(false)}
-        imageSrc={tempImageSrc}
-        onSave={handleEditorSave}
-      />
     </div>
   );
 }

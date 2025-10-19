@@ -1,10 +1,13 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { useSettings } from '../../context/SettingsContext';
 import defaultLogo from '../../assets/logo.png';
+import LogoEditorModal from '../LogoEditorModal';
 
 export default function HeaderTab() {
   const settings = useSettings();
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [showEditor, setShowEditor] = useState(false);
+  const [tempImageSrc, setTempImageSrc] = useState('');
 
   const handleLogoClick = () => {
     fileInputRef.current?.click();
@@ -21,6 +24,15 @@ export default function HeaderTab() {
       };
       reader.readAsDataURL(file);
     }
+  };
+
+  const handleEditClick = () => {
+    setTempImageSrc(settings.logoPath || defaultLogo);
+    setShowEditor(true);
+  };
+
+  const handleEditorSave = (croppedImage: string) => {
+    settings.setLogoPath(croppedImage);
   };
 
   const currentLogo = settings.logoPath || defaultLogo;
@@ -115,13 +127,26 @@ export default function HeaderTab() {
             />
           </div>
 
-          {/* Upload Button */}
-          <button
-            onClick={handleLogoClick}
-            className="px-4 py-2.5 bg-gradient-to-br from-blue-500 to-green-600 hover:from-blue-600 hover:to-green-700 border border-green-500/30 text-white rounded-xl transition-all text-sm"
-          >
-            Logo auswählen
-          </button>
+          {/* Action Buttons */}
+          <div className="flex gap-2">
+            <button
+              onClick={handleLogoClick}
+              className="px-4 py-2.5 bg-gradient-to-br from-blue-500 to-green-600 hover:from-blue-600 hover:to-green-700 border border-green-500/30 text-white rounded-xl transition-all text-sm"
+            >
+              Auswählen
+            </button>
+            <button
+              onClick={handleEditClick}
+              disabled={!settings.logoPath}
+              className={`px-4 py-2.5 rounded-xl transition-all text-sm ${
+                settings.logoPath
+                  ? 'bg-gradient-to-br from-blue-600 to-indigo-500 hover:from-blue-700 hover:to-indigo-600 border border-blue-500/30 text-white'
+                  : 'bg-zinc-800 border border-zinc-600 text-zinc-500 cursor-not-allowed'
+              }`}
+            >
+              Anpassen
+            </button>
+          </div>
         </div>
 
         {/* Hidden File Input */}
@@ -133,6 +158,14 @@ export default function HeaderTab() {
           className="hidden"
         />
       </div>
+
+      {/* Logo Editor Modal */}
+      <LogoEditorModal
+        visible={showEditor}
+        onClose={() => setShowEditor(false)}
+        imageSrc={tempImageSrc}
+        onSave={handleEditorSave}
+      />
     </div>
   );
 }

@@ -34,13 +34,10 @@ export default function TimeInput({ value, onChange, className = '' }: TimeInput
       }
 
       // Scroll minute
-      const minutes = ['00', '15', '30', '45'];
-      const minuteIndex = minutes.indexOf(selectedMinute);
-      if (minuteIndex >= 0) {
-        const minuteElement = minuteScrollRef.current.children[minuteIndex] as HTMLElement;
-        if (minuteElement) {
-          minuteScrollRef.current.scrollTop = minuteElement.offsetTop - minuteScrollRef.current.offsetTop - 60;
-        }
+      const minuteIndex = parseInt(selectedMinute);
+      const minuteElement = minuteScrollRef.current.children[minuteIndex] as HTMLElement;
+      if (minuteElement) {
+        minuteScrollRef.current.scrollTop = minuteElement.offsetTop - minuteScrollRef.current.offsetTop - 60;
       }
     }
   }, [isOpen, selectedHour, selectedMinute]);
@@ -60,7 +57,7 @@ export default function TimeInput({ value, onChange, className = '' }: TimeInput
   }, [isOpen]);
 
   const hours = Array.from({ length: 24 }, (_, i) => String(i).padStart(2, '0'));
-  const minutes = ['00', '15', '30', '45'];
+  const minutes = Array.from({ length: 60 }, (_, i) => String(i).padStart(2, '0'));
 
   const handleHourClick = (hour: string) => {
     setSelectedHour(hour);
@@ -89,14 +86,12 @@ export default function TimeInput({ value, onChange, className = '' }: TimeInput
 
       {/* Dropdown - Scrollable Columns */}
       {isOpen && (
-        <div className="absolute bottom-full left-0 mb-1 bg-zinc-800 border border-zinc-600 rounded-lg shadow-xl z-50 flex">
+        <div className="absolute top-full left-0 mt-1 bg-zinc-800 border border-zinc-600 rounded-lg shadow-xl z-50 flex">
           {/* Hours Column */}
           <div className="flex flex-col border-r border-zinc-600">
-            <div className="text-xs text-white/60 text-center py-2 border-b border-zinc-600">Stunde</div>
             <div
               ref={hourScrollRef}
-              className="overflow-y-auto h-40 scrollbar-thin scrollbar-thumb-zinc-600 scrollbar-track-zinc-800"
-              style={{ scrollbarWidth: 'thin' }}
+              className="overflow-y-auto h-40 scrollbar-hide"
             >
               {hours.map((hour) => (
                 <button
@@ -117,11 +112,9 @@ export default function TimeInput({ value, onChange, className = '' }: TimeInput
 
           {/* Minutes Column */}
           <div className="flex flex-col">
-            <div className="text-xs text-white/60 text-center py-2 border-b border-zinc-600">Minute</div>
             <div
               ref={minuteScrollRef}
-              className="overflow-y-auto h-40 scrollbar-thin scrollbar-thumb-zinc-600 scrollbar-track-zinc-800"
-              style={{ scrollbarWidth: 'thin' }}
+              className="overflow-y-auto h-40 scrollbar-hide"
             >
               {minutes.map((minute) => (
                 <button

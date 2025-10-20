@@ -36,6 +36,8 @@
     "vite-plugin-electron-renderer": "^0.14.6"
   },
   "build": {
+    "appId": "com.galusperes.eventtimer",
+    "productName": "EventTimer",
     "asar": true,
     "files": [
       "dist-electron/**",
@@ -45,7 +47,7 @@
       "buildResources": "resources"
     },
     "win": {
-      "icon": "src/assets/icon.ico",
+      "icon": "src/assets/icons/icon.png",
       "target": [
         {
           "target": "nsis",
@@ -55,6 +57,28 @@
         },
         "portable"
       ]
+    },
+    "mac": {
+      "icon": "src/assets/icons/icon.png",
+      "category": "public.app-category.utilities",
+      "target": [
+        {
+          "target": "dmg",
+          "arch": [
+            "x64",
+            "arm64"
+          ]
+        },
+        "zip"
+      ]
+    },
+    "linux": {
+      "icon": "src/assets/icons/icon.png",
+      "target": [
+        "AppImage",
+        "deb"
+      ],
+      "category": "Utility"
     },
     "nsis": {
       "oneClick": false,

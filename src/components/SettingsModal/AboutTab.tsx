@@ -2,19 +2,24 @@ import React from 'react';
 import defaultLogo from '../../assets/logo.png';
 
 export default function AboutTab() {
+  const openGitHub = () => {
+    window.open('https://github.com/GalusPeres/EventTimer', '_blank');
+  };
+
   return (
     <>
       {/* App Info Section */}
       <div className="text-center mb-6">
         <div className="flex justify-center items-center mb-4 space-x-3">
-          <img src={defaultLogo} alt="CountdownDisplay Icon" className="w-16 h-16" />
+          <img src={defaultLogo} alt="EventTimer Icon" className="w-16 h-16" />
           <div className="text-left">
-            <h3 className="text-xl font-semibold text-white">CountdownDisplay</h3>
-            <p className="text-white/60">Version 0.1.0</p>
+            <h3 className="text-xl font-semibold text-white">EventTimer</h3>
+            <p className="text-white/60">Version 1.0.0</p>
           </div>
         </div>
         <div className="text-white/60">
           <p>Built with Electron + React + Vite</p>
+          <p className="mt-1">Created by GalusPeres</p>
         </div>
       </div>
 
@@ -22,10 +27,7 @@ export default function AboutTab() {
       <div className="space-y-3">
         {/* GitHub Repository */}
         <button
-          onClick={() => {
-            // Placeholder - will be implemented later
-            console.log('GitHub link clicked');
-          }}
+          onClick={openGitHub}
           className="w-full px-4 py-2.5 bg-zinc-800 hover:bg-zinc-700 border border-zinc-600 text-white rounded-xl focus:outline-none transition-colors flex items-center justify-center space-x-2"
         >
           <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">

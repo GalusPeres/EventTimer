@@ -250,7 +250,7 @@ export default function SettingsModal({
                   : 'text-white/60 hover:text-white hover:bg-zinc-700/60 rounded-tl-lg'
               } focus:outline-none transition-all`}
             >
-              About
+              Über
             </button>
           </div>
         </div>
@@ -282,8 +282,28 @@ export default function SettingsModal({
             <ScheduleTab
               onFooterRender={setScheduleFooter}
               onResetRequest={() => {
-                setConfirmAction('resetSchedule');
-                setShowConfirm(true);
+                // Check if schedule is different from defaults
+                const defaultItems = [
+                  { id: 'item-1', label: 'Spiel 1', startTime: '09:30', endTime: '12:30' },
+                  { id: 'item-2', label: 'Mittagspause', startTime: '12:30', endTime: '13:30' },
+                  { id: 'item-3', label: 'Spiel 2', startTime: '13:30', endTime: '16:30' },
+                  { id: 'item-4', label: 'Spiel 3', startTime: '16:45', endTime: '19:45' },
+                  { id: 'item-5', label: 'Siegerehrung', startTime: '19:45', endTime: '20:00' },
+                ];
+
+                const isChanged = JSON.stringify(settings.scheduleItems) !== JSON.stringify(defaultItems) ||
+                                settings.scheduleHeight !== 100 ||
+                                !settings.scheduleVisible;
+
+                if (isChanged) {
+                  setConfirmAction('resetSchedule');
+                  setShowConfirm(true);
+                } else {
+                  // Already at defaults, just reset silently
+                  settings.setScheduleItems(defaultItems);
+                  settings.setScheduleHeight(100);
+                  settings.setScheduleVisible(true);
+                }
               }}
             />
           ) : tab === 'header' ? (

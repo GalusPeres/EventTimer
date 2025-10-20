@@ -47,6 +47,16 @@ export default function App() {
     return () => clearInterval(interval);
   }, []);
 
+  // Auto-reset "ist beendet" message after 5 minutes
+  useEffect(() => {
+    if (!countdownActive && remainingTime) {
+      const timer = setTimeout(() => {
+        setRemainingTime('');
+      }, 5 * 60 * 1000); // 5 minutes
+      return () => clearTimeout(timer);
+    }
+  }, [countdownActive, remainingTime]);
+
   // Fullscreen detection
   useEffect(() => {
     const checkFullscreen = async () => {
@@ -237,7 +247,7 @@ export default function App() {
 
       {/* Hover Controls */}
       <HoverControls
-        onSettings={() => setShowSettings(true)}
+        onSettings={() => setShowSettings(!showSettings)}
         onFullscreen={handleToggleFullscreen}
         onClose={handleCloseApp}
         visible={!hideControls}
@@ -255,7 +265,7 @@ export default function App() {
             />
             <h1
               className="font-bold tracking-wide whitespace-nowrap"
-              style={{ fontSize: `calc(clamp(2.5rem, 5vw, 5rem) * ${settings.headerHeight / 100})`, textShadow: '2px 2px 70px rgba(0, 0, 0, 0.7)' }}
+              style={{ fontSize: `calc(clamp(2.5rem, 5vw, 5rem) * ${settings.headerHeight / 100})`, textShadow: '0 4px 20px rgba(0, 0, 0, 0.8)' }}
             >
               {settings.tournamentName}
             </h1>
@@ -269,8 +279,10 @@ export default function App() {
           className="relative rounded-[70px] w-full h-full cursor-pointer hover:opacity-90 transition-opacity overflow-hidden"
           onClick={() => setShowSettings(true)}
         >
-          {/* Progress Bar Background (gray - #11131b) */}
-          <div className="absolute inset-0 bg-[#11131b] rounded-[70px]" />
+          {/* Progress Bar Background (gray - #11131b or red when finished) */}
+          <div className={`absolute inset-0 rounded-[70px] transition-colors duration-500 ${
+            !countdownActive && remainingTime ? 'bg-red-600' : 'bg-[#11131b]'
+          }`} />
 
           {/* Progress Bar Foreground (green) - clips from left to right (right side shrinks) */}
           <div
@@ -297,11 +309,11 @@ export default function App() {
                     {remainingTime}
                   </div>
                 ) : remainingTime ? (
-                  <div style={{ fontSize: 'clamp(2rem, 4vw, 5rem)', fontWeight: 'bold', textShadow: '2px 2px 70px rgba(0, 0, 0, 0.7)' }}>
+                  <div style={{ fontSize: 'clamp(2rem, 4.5vw, 6rem)', textShadow: '0 4px 20px rgba(0, 0, 0, 0.8)' }}>
                     {getCurrentPhaseLabel()} ist beendet
                   </div>
                 ) : (
-                  <div style={{ fontSize: 'clamp(2rem, 4vw, 5rem)', fontWeight: 'bold', textShadow: '2px 2px 70px rgba(0, 0, 0, 0.7)' }}>
+                  <div style={{ fontSize: 'clamp(2rem, 4.5vw, 6rem)', textShadow: '2px 2px 70px rgba(0, 0, 0, 0.7)' }}>
                     Countdown stellen
                   </div>
                 )}

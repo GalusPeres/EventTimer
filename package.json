@@ -1,13 +1,13 @@
 {
-  "name": "countdowndisplay",
+  "name": "eventtimer",
   "version": "1.0.0",
-  "description": "Electron + Vite + React + Tailwind Countdown Display für Warhammer Turniere",
+  "description": "Electron + Vite + React + Tailwind Event Timer für Turniere",
   "author": {
     "name": "Sebastian"
   },
   "license": "MIT",
   "main": "dist-electron/index.js",
-  "productName": "Countdown Display",
+  "productName": "EventTimer",
   "scripts": {
     "dev": "vite",
     "build": "vite build",

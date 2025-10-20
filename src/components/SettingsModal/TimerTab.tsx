@@ -116,7 +116,7 @@ export default function TimerTab({ mode, setMode, hours, setHours, minutes, setM
                         </button>
                       </div>
                   </div>
-                  <div className="relative w-24">
+                  <div className="relative w-[5.5rem]">
                     <input
                       type="number"
                       min="0"
@@ -227,7 +227,7 @@ export default function TimerTab({ mode, setMode, hours, setHours, minutes, setM
                     </button>
                   </div>
                 </div>
-                <div className="relative w-24">
+                <div className="relative w-[5.5rem]">
                   <input
                     type="number"
                     min="0"
@@ -321,18 +321,18 @@ function InfoBox({ countdownActive, mode, hours, minutes, targetTime, remainingT
 
   return (
     <div className="p-5 bg-zinc-800/50 border border-zinc-700 rounded-lg flex-shrink-0">
-      <div className="grid grid-cols-2 gap-x-16 gap-y-1.5 text-xs">
+      <div className="grid grid-cols-2 gap-x-16 gap-y-1.5 text-base">
         {/* Spalte 1, Zeile 1 */}
         <div className="flex justify-between">
           <span className="text-white/60">Uhrzeit:</span>
-          <span className="font-medium">{currentTime} Uhr</span>
+          <span>{currentTime} Uhr</span>
         </div>
 
         {/* Spalte 2, Zeile 1 */}
         {countdownActive && (
           <div className="flex justify-between">
             <span className="text-white/60">Startzeit:</span>
-            <span className="font-medium">
+            <span>
               {countdownStartTime ? `${countdownStartTime.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })} Uhr` : '--:--'}
             </span>
           </div>
@@ -340,7 +340,7 @@ function InfoBox({ countdownActive, mode, hours, minutes, targetTime, remainingT
         {!countdownActive && (
           <div className="flex justify-between">
             <span className="text-white/60">Ziel:</span>
-            <span className="font-medium">{calculateTargetTime()} Uhr</span>
+            <span>{calculateTargetTime()} Uhr</span>
           </div>
         )}
 
@@ -348,7 +348,7 @@ function InfoBox({ countdownActive, mode, hours, minutes, targetTime, remainingT
         {countdownActive && (
           <div className="flex justify-between">
             <span className="text-white/60">Countdown:</span>
-            <span className="font-medium">{remainingTime || '--:--:--'}</span>
+            <span>{remainingTime || '--:--:--'}</span>
           </div>
         )}
 
@@ -356,21 +356,8 @@ function InfoBox({ countdownActive, mode, hours, minutes, targetTime, remainingT
         {countdownActive && (
           <div className="flex justify-between">
             <span className="text-white/60">Zielzeit:</span>
-            <span className="font-medium">
+            <span>
               {targetDate ? `${targetDate.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })} Uhr` : '--:--'}
-            </span>
-          </div>
-        )}
-
-        {/* Spalte 1, Zeile 3 - Balken-Limit */}
-        {progressBarLimitEnabled && (
-          <div className="flex justify-between">
-            <span className="text-white/60">Balken-Limit:</span>
-            <span className="font-medium">
-              {progressBarLimitHours > 0 && `${progressBarLimitHours}h`}
-              {progressBarLimitHours > 0 && progressBarLimitMinutes > 0 && ' '}
-              {progressBarLimitMinutes > 0 && `${progressBarLimitMinutes}min`}
-              {progressBarLimitHours === 0 && progressBarLimitMinutes === 0 && '0min'}
             </span>
           </div>
         )}

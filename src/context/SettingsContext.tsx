@@ -28,6 +28,12 @@ export type Settings = {
   progressBarLimitHours: number;
   progressBarLimitMinutes: number;
 
+  // Countdown Settings
+  countdownMode: 'duration' | 'target';
+  countdownHours: number;
+  countdownMinutes: number;
+  countdownTargetTime: string;
+
   // Setters
   setTournamentName(v: string): void;
   setLogoPath(v: string): void;
@@ -41,6 +47,10 @@ export type Settings = {
   setProgressBarLimitEnabled(v: boolean): void;
   setProgressBarLimitHours(v: number): void;
   setProgressBarLimitMinutes(v: number): void;
+  setCountdownMode(v: 'duration' | 'target'): void;
+  setCountdownHours(v: number): void;
+  setCountdownMinutes(v: number): void;
+  setCountdownTargetTime(v: string): void;
 };
 
 const SettingsContext = createContext<Settings | null>(null);
@@ -68,9 +78,13 @@ const DEFAULT_SETTINGS = {
   currentGame: 1,
   scheduleVisible: true,
   scheduleHeight: 100,
-  progressBarLimitEnabled: false,
+  progressBarLimitEnabled: true,
   progressBarLimitHours: 3,
   progressBarLimitMinutes: 0,
+  countdownMode: 'duration' as 'duration' | 'target',
+  countdownHours: 3,
+  countdownMinutes: 0,
+  countdownTargetTime: '12:30',
   scheduleItems: [
     { id: 'item-1', label: 'Spiel 1', startTime: '09:30', endTime: '12:30' },
     { id: 'item-2', label: 'Mittagspause', startTime: '12:30', endTime: '13:30' },
@@ -99,6 +113,10 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
     progressBarLimitEnabled,
     progressBarLimitHours,
     progressBarLimitMinutes,
+    countdownMode,
+    countdownHours,
+    countdownMinutes,
+    countdownTargetTime,
   } = allSettings;
 
   // Debounced save to localStorage
@@ -125,7 +143,7 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
     key: K
   ) => {
     return (value: typeof allSettings[K]) => {
-      setAllSettings(prev => ({ ...prev, [key]: value }));
+      setAllSettings((prev: typeof allSettings) => ({ ...prev, [key]: value }));
     };
   }, []);
 
@@ -141,6 +159,10 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
   const setProgressBarLimitEnabled = useMemo(() => createSetter('progressBarLimitEnabled'), [createSetter]);
   const setProgressBarLimitHours = useMemo(() => createSetter('progressBarLimitHours'), [createSetter]);
   const setProgressBarLimitMinutes = useMemo(() => createSetter('progressBarLimitMinutes'), [createSetter]);
+  const setCountdownMode = useMemo(() => createSetter('countdownMode'), [createSetter]);
+  const setCountdownHours = useMemo(() => createSetter('countdownHours'), [createSetter]);
+  const setCountdownMinutes = useMemo(() => createSetter('countdownMinutes'), [createSetter]);
+  const setCountdownTargetTime = useMemo(() => createSetter('countdownTargetTime'), [createSetter]);
 
   const value: Settings = useMemo(() => ({
     tournamentName,
@@ -155,6 +177,10 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
     progressBarLimitEnabled,
     progressBarLimitHours,
     progressBarLimitMinutes,
+    countdownMode,
+    countdownHours,
+    countdownMinutes,
+    countdownTargetTime,
     setTournamentName,
     setLogoPath,
     setLogoOriginalPath,
@@ -167,9 +193,14 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
     setProgressBarLimitEnabled,
     setProgressBarLimitHours,
     setProgressBarLimitMinutes,
+    setCountdownMode,
+    setCountdownHours,
+    setCountdownMinutes,
+    setCountdownTargetTime,
   }), [
     tournamentName,
     logoPath,
+    logoOriginalPath,
     headerVisible,
     headerHeight,
     currentGame,
@@ -179,8 +210,13 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
     progressBarLimitEnabled,
     progressBarLimitHours,
     progressBarLimitMinutes,
+    countdownMode,
+    countdownHours,
+    countdownMinutes,
+    countdownTargetTime,
     setTournamentName,
     setLogoPath,
+    setLogoOriginalPath,
     setHeaderVisible,
     setHeaderHeight,
     setCurrentGame,
@@ -190,6 +226,10 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
     setProgressBarLimitEnabled,
     setProgressBarLimitHours,
     setProgressBarLimitMinutes,
+    setCountdownMode,
+    setCountdownHours,
+    setCountdownMinutes,
+    setCountdownTargetTime,
   ]);
 
   return (

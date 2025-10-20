@@ -43,11 +43,15 @@ export default function SettingsModal({
   const settings = useSettings();
   const [tab, setTab] = useState<'countdown' | 'schedule' | 'header' | 'about'>('countdown');
 
-  // Timer tab state
-  const [mode, setMode] = useState<'duration' | 'target'>('duration');
-  const [hours, setHours] = useState<number>(3);
-  const [minutes, setMinutes] = useState<number>(0);
-  const [targetTime, setTargetTime] = useState<string>('12:30');
+  // Use settings from context instead of local state
+  const mode = settings.countdownMode;
+  const setMode = settings.setCountdownMode;
+  const hours = settings.countdownHours;
+  const setHours = settings.setCountdownHours;
+  const minutes = settings.countdownMinutes;
+  const setMinutes = settings.setCountdownMinutes;
+  const targetTime = settings.countdownTargetTime;
+  const setTargetTime = settings.setCountdownTargetTime;
 
   // Confirm modal state
   const [showConfirm, setShowConfirm] = useState(false);
@@ -79,13 +83,16 @@ export default function SettingsModal({
   };
 
   const handleConfirmAction = () => {
-    if (confirmAction === 'stop' || confirmAction === 'reset') {
+    if (confirmAction === 'stop') {
+      // Stop only stops the countdown, doesn't reset settings
       onResetCountdown();
-      // Reset timer settings to defaults when stopping/resetting
-      setMode('duration');
-      setHours(3);
-      setMinutes(0);
-      setTargetTime('12:30');
+    } else if (confirmAction === 'reset') {
+      // Reset stops countdown AND resets settings to defaults
+      onResetCountdown();
+      settings.setCountdownMode('duration');
+      settings.setCountdownHours(3);
+      settings.setCountdownMinutes(0);
+      settings.setCountdownTargetTime('12:30');
       setProgressBarLimitEnabled(true);
       setProgressBarLimitHours(3);
       setProgressBarLimitMinutes(0);
@@ -313,7 +320,8 @@ export default function SettingsModal({
                 <button
                   onClick={() => {
                     // Check if countdown settings were changed from default
-                    const isChanged = mode !== 'duration' || hours !== 3 || minutes !== 0 || targetTime !== '12:30' ||
+                    const isChanged = settings.countdownMode !== 'duration' || settings.countdownHours !== 3 ||
+                                    settings.countdownMinutes !== 0 || settings.countdownTargetTime !== '12:30' ||
                                     !progressBarLimitEnabled || progressBarLimitHours !== 3 || progressBarLimitMinutes !== 0;
 
                     if (countdownActive || isChanged) {
@@ -322,10 +330,10 @@ export default function SettingsModal({
                     } else {
                       // Already at default and not active, just reset
                       onResetCountdown();
-                      setMode('duration');
-                      setHours(3);
-                      setMinutes(0);
-                      setTargetTime('12:30');
+                      settings.setCountdownMode('duration');
+                      settings.setCountdownHours(3);
+                      settings.setCountdownMinutes(0);
+                      settings.setCountdownTargetTime('12:30');
                       setProgressBarLimitEnabled(true);
                       setProgressBarLimitHours(3);
                       setProgressBarLimitMinutes(0);

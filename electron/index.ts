@@ -15,6 +15,7 @@ function createWindow() {
     },
     frame: false,
     fullscreen: false,
+    fullscreenable: true, // Enable fullscreen button on macOS
   });
 
   // Load the app
@@ -44,15 +45,22 @@ app.on('activate', () => {
 });
 
 // IPC Handlers
-ipcMain.handle('toggle-fullscreen', () => {
+ipcMain.handle('toggle-fullscreen', async () => {
   if (!mainWindow) return false;
-  const isFullscreen = mainWindow.isFullScreen();
-  mainWindow.setFullScreen(!isFullscreen);
-  return !isFullscreen;
+
+  try {
+    const isFullscreen = mainWindow.isFullScreen();
+    mainWindow.setFullScreen(!isFullscreen);
+    return !isFullscreen;
+  } catch (error) {
+    console.error('Error toggling fullscreen:', error);
+    return false;
+  }
 });
 
 ipcMain.handle('is-fullscreen', () => {
-  return mainWindow?.isFullScreen() || false;
+  if (!mainWindow) return false;
+  return mainWindow.isFullScreen();
 });
 
 ipcMain.on('close-app', () => {

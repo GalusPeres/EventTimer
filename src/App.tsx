@@ -63,7 +63,16 @@ export default function App() {
       const isFull = await window.electronAPI.isFullscreen();
       setIsFullscreen(isFull);
     };
+
+    // Check immediately
     checkFullscreen();
+
+    // Check again after a short delay (macOS sometimes needs this)
+    const timer = setTimeout(() => {
+      checkFullscreen();
+    }, 100);
+
+    return () => clearTimeout(timer);
   }, []);
 
   // Cursor auto-hide

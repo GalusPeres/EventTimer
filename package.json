@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "Electron + Vite + React + Tailwind Event Timer für Turniere",
   "author": {
-    "name": "Sebastian"
+    "name": "GalusPeres",
+    "email": "noreply@example.com"
   },
   "license": "MIT",
   "main": "dist-electron/index.js",

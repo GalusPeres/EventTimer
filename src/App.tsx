@@ -12,6 +12,7 @@ declare global {
       toggleFullscreen: () => Promise<boolean>;
       isFullscreen: () => Promise<boolean>;
       closeApp: () => void;
+      openExternal: (url: string) => void;
     };
   }
 }

@@ -66,3 +66,8 @@ ipcMain.handle('is-fullscreen', () => {
 ipcMain.on('close-app', () => {
   app.quit();
 });
+
+ipcMain.on('open-external', (_event, url: string) => {
+  const { shell } = require('electron');
+  shell.openExternal(url);
+});

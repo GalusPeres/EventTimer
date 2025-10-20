@@ -1,9 +1,19 @@
 import React from 'react';
 import defaultLogo from '../../assets/logo.png';
 
+declare global {
+  interface Window {
+    electronAPI: {
+      openExternal: (url: string) => void;
+    };
+  }
+}
+
 export default function AboutTab() {
-  const openGitHub = () => {
-    window.open('https://github.com/GalusPeres/EventTimer', '_blank');
+  const openURL = (url: string) => {
+    if (window.electronAPI?.openExternal) {
+      window.electronAPI.openExternal(url);
+    }
   };
 
   return (
@@ -14,7 +24,7 @@ export default function AboutTab() {
           <img src={defaultLogo} alt="EventTimer Icon" className="w-16 h-16" />
           <div className="text-left">
             <h3 className="text-xl font-semibold text-white">EventTimer</h3>
-            <p className="text-white/60">Version 1.0.0</p>
+            <p className="text-white/60">Version 0.1.0</p>
           </div>
         </div>
         <div className="text-white/60">
@@ -27,7 +37,7 @@ export default function AboutTab() {
       <div className="space-y-3">
         {/* GitHub Repository */}
         <button
-          onClick={openGitHub}
+          onClick={() => openURL('https://github.com/GalusPeres/EventTimer')}
           className="w-full px-4 py-2.5 bg-zinc-800 hover:bg-zinc-700 border border-zinc-600 text-white rounded-xl focus:outline-none transition-colors flex items-center justify-center space-x-2"
         >
           <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">

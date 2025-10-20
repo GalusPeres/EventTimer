@@ -1,6 +1,6 @@
 {
   "name": "eventtimer",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Electron + Vite + React + Tailwind Event Timer für Turniere",
   "author": {
     "name": "GalusPeres",

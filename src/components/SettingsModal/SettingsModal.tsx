@@ -6,6 +6,26 @@ import HeaderTab from './HeaderTab';
 import AboutTab from './AboutTab';
 import ConfirmModal from '../ConfirmModal';
 import LogoEditorModal from '../LogoEditorModal';
+import {
+  DEFAULT_COUNTDOWN_MODE,
+  DEFAULT_COUNTDOWN_HOURS,
+  DEFAULT_COUNTDOWN_MINUTES,
+  DEFAULT_COUNTDOWN_TARGET_TIME,
+  DEFAULT_PROGRESS_BAR_LIMIT_ENABLED,
+  DEFAULT_PROGRESS_BAR_LIMIT_HOURS,
+  DEFAULT_PROGRESS_BAR_LIMIT_MINUTES,
+  DEFAULT_TOURNAMENT_NAME,
+  DEFAULT_LOGO_PATH,
+  DEFAULT_LOGO_ORIGINAL_PATH,
+  DEFAULT_HEADER_VISIBLE,
+  DEFAULT_HEADER_HEIGHT,
+  DEFAULT_SCHEDULE_ITEMS,
+  DEFAULT_SCHEDULE_HEIGHT,
+  DEFAULT_SCHEDULE_VISIBLE,
+  isCountdownAtDefaults,
+  isHeaderAtDefaults,
+  isScheduleAtDefaults,
+} from '../../utils/settingsDefaults';
 
 type Props = {
   visible: boolean;
@@ -89,29 +109,23 @@ export default function SettingsModal({
     } else if (confirmAction === 'reset') {
       // Reset stops countdown AND resets settings to defaults
       onResetCountdown();
-      settings.setCountdownMode('duration');
-      settings.setCountdownHours(3);
-      settings.setCountdownMinutes(0);
-      settings.setCountdownTargetTime('12:30');
-      setProgressBarLimitEnabled(true);
-      setProgressBarLimitHours(3);
-      setProgressBarLimitMinutes(0);
+      settings.setCountdownMode(DEFAULT_COUNTDOWN_MODE);
+      settings.setCountdownHours(DEFAULT_COUNTDOWN_HOURS);
+      settings.setCountdownMinutes(DEFAULT_COUNTDOWN_MINUTES);
+      settings.setCountdownTargetTime(DEFAULT_COUNTDOWN_TARGET_TIME);
+      setProgressBarLimitEnabled(DEFAULT_PROGRESS_BAR_LIMIT_ENABLED);
+      setProgressBarLimitHours(DEFAULT_PROGRESS_BAR_LIMIT_HOURS);
+      setProgressBarLimitMinutes(DEFAULT_PROGRESS_BAR_LIMIT_MINUTES);
     } else if (confirmAction === 'resetSchedule') {
-      const defaultItems = [
-        { id: 'item-1', label: 'Spiel 1', startTime: '09:30', endTime: '12:30' },
-        { id: 'item-2', label: 'Mittagspause', startTime: '12:30', endTime: '13:30' },
-        { id: 'item-3', label: 'Spiel 2', startTime: '13:30', endTime: '16:30' },
-        { id: 'item-4', label: 'Spiel 3', startTime: '16:45', endTime: '19:45' },
-        { id: 'item-5', label: 'Siegerehrung', startTime: '19:45', endTime: '20:00' },
-      ];
-      settings.setScheduleItems(defaultItems);
-      settings.setScheduleHeight(100);
-      settings.setScheduleVisible(true);
+      settings.setScheduleItems(DEFAULT_SCHEDULE_ITEMS);
+      settings.setScheduleHeight(DEFAULT_SCHEDULE_HEIGHT);
+      settings.setScheduleVisible(DEFAULT_SCHEDULE_VISIBLE);
     } else if (confirmAction === 'resetTournament') {
-      settings.setTournamentName('WAIDLER TOURNAMENT');
-      settings.setLogoPath('');
-      settings.setLogoOriginalPath('');
-      settings.setHeaderVisible(true);
+      settings.setTournamentName(DEFAULT_TOURNAMENT_NAME);
+      settings.setLogoPath(DEFAULT_LOGO_PATH);
+      settings.setLogoOriginalPath(DEFAULT_LOGO_ORIGINAL_PATH);
+      settings.setHeaderVisible(DEFAULT_HEADER_VISIBLE);
+      settings.setHeaderHeight(DEFAULT_HEADER_HEIGHT);
     }
     setShowConfirm(false);
     setConfirmAction(null);
@@ -281,30 +295,6 @@ export default function SettingsModal({
           ) : tab === 'schedule' ? (
             <ScheduleTab
               onFooterRender={setScheduleFooter}
-              onResetRequest={() => {
-                // Check if schedule is different from defaults
-                const defaultItems = [
-                  { id: 'item-1', label: 'Spiel 1', startTime: '09:30', endTime: '12:30' },
-                  { id: 'item-2', label: 'Mittagspause', startTime: '12:30', endTime: '13:30' },
-                  { id: 'item-3', label: 'Spiel 2', startTime: '13:30', endTime: '16:30' },
-                  { id: 'item-4', label: 'Spiel 3', startTime: '16:45', endTime: '19:45' },
-                  { id: 'item-5', label: 'Siegerehrung', startTime: '19:45', endTime: '20:00' },
-                ];
-
-                const isChanged = JSON.stringify(settings.scheduleItems) !== JSON.stringify(defaultItems) ||
-                                settings.scheduleHeight !== 100 ||
-                                !settings.scheduleVisible;
-
-                if (isChanged) {
-                  setConfirmAction('resetSchedule');
-                  setShowConfirm(true);
-                } else {
-                  // Already at defaults, just reset silently
-                  settings.setScheduleItems(defaultItems);
-                  settings.setScheduleHeight(100);
-                  settings.setScheduleVisible(true);
-                }
-              }}
             />
           ) : tab === 'header' ? (
             <HeaderTab
@@ -340,23 +330,29 @@ export default function SettingsModal({
                 <button
                   onClick={() => {
                     // Check if countdown settings were changed from default
-                    const isChanged = settings.countdownMode !== 'duration' || settings.countdownHours !== 3 ||
-                                    settings.countdownMinutes !== 0 || settings.countdownTargetTime !== '12:30' ||
-                                    !progressBarLimitEnabled || progressBarLimitHours !== 3 || progressBarLimitMinutes !== 0;
+                    const atDefaults = isCountdownAtDefaults(
+                      settings.countdownMode,
+                      settings.countdownHours,
+                      settings.countdownMinutes,
+                      settings.countdownTargetTime,
+                      progressBarLimitEnabled,
+                      progressBarLimitHours,
+                      progressBarLimitMinutes
+                    );
 
-                    if (countdownActive || isChanged) {
+                    if (countdownActive || !atDefaults) {
                       setConfirmAction('reset');
                       setShowConfirm(true);
                     } else {
                       // Already at default and not active, just reset
                       onResetCountdown();
-                      settings.setCountdownMode('duration');
-                      settings.setCountdownHours(3);
-                      settings.setCountdownMinutes(0);
-                      settings.setCountdownTargetTime('12:30');
-                      setProgressBarLimitEnabled(true);
-                      setProgressBarLimitHours(3);
-                      setProgressBarLimitMinutes(0);
+                      settings.setCountdownMode(DEFAULT_COUNTDOWN_MODE);
+                      settings.setCountdownHours(DEFAULT_COUNTDOWN_HOURS);
+                      settings.setCountdownMinutes(DEFAULT_COUNTDOWN_MINUTES);
+                      settings.setCountdownTargetTime(DEFAULT_COUNTDOWN_TARGET_TIME);
+                      setProgressBarLimitEnabled(DEFAULT_PROGRESS_BAR_LIMIT_ENABLED);
+                      setProgressBarLimitHours(DEFAULT_PROGRESS_BAR_LIMIT_HOURS);
+                      setProgressBarLimitMinutes(DEFAULT_PROGRESS_BAR_LIMIT_MINUTES);
                     }
                   }}
                   className="px-4 py-2.5 bg-gradient-to-br from-blue-600 to-indigo-500 hover:from-blue-700 hover:to-indigo-600 border border-blue-500/30 text-white rounded-xl transition-all"
@@ -367,27 +363,57 @@ export default function SettingsModal({
             );
           })()}
 
-          {tab === 'schedule' && scheduleFooter}
+          {tab === 'schedule' && (
+            <>
+              {scheduleFooter}
+              <button
+                onClick={() => {
+                  // Check if schedule settings were changed from default
+                  const atDefaults = isScheduleAtDefaults(
+                    settings.scheduleItems,
+                    settings.scheduleHeight,
+                    settings.scheduleVisible
+                  );
+
+                  if (!atDefaults) {
+                    setConfirmAction('resetSchedule');
+                    setShowConfirm(true);
+                  } else {
+                    // Already at defaults, just reset
+                    settings.setScheduleItems(DEFAULT_SCHEDULE_ITEMS);
+                    settings.setScheduleHeight(DEFAULT_SCHEDULE_HEIGHT);
+                    settings.setScheduleVisible(DEFAULT_SCHEDULE_VISIBLE);
+                  }
+                }}
+                className="px-4 py-2.5 bg-gradient-to-br from-blue-600 to-indigo-500 hover:from-blue-700 hover:to-indigo-600 border border-blue-500/30 text-white rounded-xl transition-all"
+              >
+                Reset
+              </button>
+            </>
+          )}
 
           {tab === 'header' && (
             <button
               onClick={() => {
                 // Check if header was changed from default
-                const isChanged = settings.tournamentName !== 'WAIDLER TOURNAMENT' ||
-                                settings.logoPath !== '' ||
-                                settings.logoOriginalPath !== '' ||
-                                !settings.headerVisible ||
-                                settings.headerHeight !== 100;
+                const atDefaults = isHeaderAtDefaults(
+                  settings.tournamentName,
+                  settings.logoPath,
+                  settings.logoOriginalPath,
+                  settings.headerVisible,
+                  settings.headerHeight
+                );
 
-                if (isChanged) {
+                if (!atDefaults) {
                   setConfirmAction('resetTournament');
                   setShowConfirm(true);
                 } else {
                   // Already at default, just reset
-                  settings.setTournamentName('WAIDLER TOURNAMENT');
-                  settings.setLogoPath('');
-                  settings.setLogoOriginalPath('');
-                  settings.setHeaderVisible(true);
+                  settings.setTournamentName(DEFAULT_TOURNAMENT_NAME);
+                  settings.setLogoPath(DEFAULT_LOGO_PATH);
+                  settings.setLogoOriginalPath(DEFAULT_LOGO_ORIGINAL_PATH);
+                  settings.setHeaderVisible(DEFAULT_HEADER_VISIBLE);
+                  settings.setHeaderHeight(DEFAULT_HEADER_HEIGHT);
                 }
               }}
               className="px-4 py-2.5 bg-gradient-to-br from-blue-600 to-indigo-500 hover:from-blue-700 hover:to-indigo-600 border border-blue-500/30 text-white rounded-xl transition-all"
@@ -408,8 +434,9 @@ export default function SettingsModal({
                 <button
                   className="text-blue-400 hover:text-blue-300 transition-colors"
                   onClick={() => {
-                    // Placeholder
-                    console.log('View License clicked');
+                    if (window.electronAPI?.openExternal) {
+                      window.electronAPI.openExternal('https://github.com/GalusPeres/EventTimer/blob/main/LICENSE');
+                    }
                   }}
                 >
                   View License
@@ -417,8 +444,9 @@ export default function SettingsModal({
                 <button
                   className="text-blue-400 hover:text-blue-300 transition-colors"
                   onClick={() => {
-                    // Placeholder
-                    console.log('Report Bug clicked');
+                    if (window.electronAPI?.openExternal) {
+                      window.electronAPI.openExternal('https://github.com/GalusPeres/EventTimer/issues/new');
+                    }
                   }}
                 >
                   Report Bug

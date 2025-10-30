@@ -324,20 +324,20 @@ export default function App() {
       {/* Main Countdown Display with integrated Progress Bar */}
       <div className="flex items-center justify-center flex-1 px-3 pb-3">
         <div
-          className="relative rounded-[70px] w-full h-full cursor-pointer hover:opacity-90 transition-opacity overflow-hidden"
+          className="relative rounded-[60px] w-full h-full cursor-pointer hover:opacity-90 transition-opacity overflow-hidden border border-zinc-800"
           onClick={handleOpenSettings}
         >
-          {/* Progress Bar Background (gray - lighter or red when finished) */}
-          <div className={`absolute inset-0 rounded-[70px] transition-colors duration-500 ${
-            !countdownActive && remainingTime ? 'bg-red-600' : 'bg-[#1e2236] bg-opacity-60'
+          {/* Progress Bar Background (gray - darker or red when finished) */}
+          <div className={`absolute inset-0 rounded-[60px] transition-colors duration-500 ${
+            !countdownActive && remainingTime ? 'bg-red-600' : 'bg-gradient-to-br from-slate-600/15 to-indigo-900/15'
           }`} />
 
           {/* Progress Bar Foreground (green) - instant update, no animation for best performance */}
           <div
-            className="absolute inset-0 rounded-[70px]"
+            className="absolute top-[1px] bottom-[1px] left-[1px] right-[1px] rounded-[59px]"
             style={{
-              backgroundColor: '#009936',
-              clipPath: `inset(0 0 0 ${100 - progressPercent}% round 70px)`
+              background: '#009936',
+              clipPath: `inset(0 0 0 ${100 - progressPercent}% round 59px)`
             }}
           />
 
@@ -380,8 +380,8 @@ export default function App() {
             return (
               <div
                 key={item.id}
-                className={`bg-[#1e2236] rounded-[50px] transition-all flex-1 ${
-                  isCurrent ? 'bg-opacity-100' : 'bg-opacity-60'
+                className={`rounded-[60px] transition-all flex-1 border border-zinc-800 ${
+                  isCurrent ? 'bg-gradient-to-br from-slate-600/40 to-indigo-900/30' : 'bg-gradient-to-br from-slate-600/15 to-indigo-900/10'
                 }`}
                 style={{ paddingLeft: '1.5rem', paddingRight: '1.5rem', paddingTop: `${(settings.scheduleHeight / 100) * 2}rem`, paddingBottom: `${(settings.scheduleHeight / 100) * 2}rem` }}
               >

@@ -87,7 +87,17 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    const onMove = resetCursorTimer;
+    let throttleTimeout: number | null = null;
+
+    const onMove = () => {
+      if (!throttleTimeout) {
+        throttleTimeout = window.setTimeout(() => {
+          throttleTimeout = null;
+        }, 100);
+        resetCursorTimer();
+      }
+    };
+
     const onClick = resetCursorTimer;
     const onLeave = () => {
       setHideCursor(true);
@@ -110,6 +120,7 @@ export default function App() {
       document.body.removeEventListener('mouseleave', onLeave);
       document.body.removeEventListener('mouseenter', onEnter);
       clearTimeout(cursorTimeoutRef.current);
+      if (throttleTimeout) clearTimeout(throttleTimeout);
     };
   }, [resetCursorTimer]);
 

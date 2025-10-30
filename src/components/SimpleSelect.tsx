@@ -84,13 +84,14 @@ export function SimpleSelect({
           {options.map((o) => (
             <li
               key={o.value}
-              onClick={() => {
-                onChange(o.value);
+              onMouseDown={(e) => {
+                e.preventDefault();
                 setOpen(false);
+                onChange(o.value);
               }}
               title={o.label}
               className={`
-                px-3 py-1 cursor-pointer
+                px-3 py-1 cursor-pointer transition-colors
                 ${o.value === value
                   ? 'bg-gradient-to-r from-blue-600 to-indigo-500 text-white'
                   : 'text-zinc-200 hover:bg-zinc-700 hover:text-white'}

@@ -135,22 +135,32 @@ export default function HeaderTab({ onOpenLogoEditor }: Props) {
           <div className="w-16 shrink-0">
             <NumberSelect
               options={[
-                { value: 50, label: '50' },
                 { value: 60, label: '60' },
-                { value: 70, label: '70' },
+                { value: 64, label: '64' },
+                { value: 68, label: '68' },
+                { value: 72, label: '72' },
+                { value: 76, label: '76' },
                 { value: 80, label: '80' },
-                { value: 90, label: '90' },
+                { value: 84, label: '84' },
+                { value: 88, label: '88' },
+                { value: 92, label: '92' },
+                { value: 96, label: '96' },
                 { value: 100, label: '100' },
-                { value: 110, label: '110' },
+                { value: 104, label: '104' },
+                { value: 108, label: '108' },
+                { value: 112, label: '112' },
+                { value: 116, label: '116' },
                 { value: 120, label: '120' },
-                { value: 130, label: '130' },
+                { value: 124, label: '124' },
+                { value: 128, label: '128' },
+                { value: 132, label: '132' },
+                { value: 136, label: '136' },
                 { value: 140, label: '140' },
-                { value: 150, label: '150' },
               ]}
               value={settings.headerTextSize}
               onChange={(val) => settings.setHeaderTextSize(val)}
-              min={30}
-              max={200}
+              min={60}
+              max={140}
             />
           </div>
         </div>

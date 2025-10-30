@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
 import { useSettings } from '../../context/SettingsContext';
 import defaultLogo from '../../assets/logo.png';
+import { NumberSelect } from '../NumberSelect';
 
 type Props = {
   onOpenLogoEditor: (imageSrc: string) => void;
@@ -112,13 +113,47 @@ export default function HeaderTab({ onOpenLogoEditor }: Props) {
       {/* Tournament Name Editor */}
       <div>
         <div className="mb-2 text-base text-white">Überschrift:</div>
-        <input
-          type="text"
-          value={settings.tournamentName}
-          onChange={(e) => settings.setTournamentName(e.target.value)}
-          className="w-full px-3 py-2 bg-zinc-900 border border-zinc-700 rounded-lg text-white focus:outline-none focus:border-blue-500"
-          placeholder="Überschrift eingeben"
-        />
+        <div className="flex items-center gap-1">
+          <input
+            type="text"
+            value={settings.tournamentName}
+            onChange={(e) => settings.setTournamentName(e.target.value)}
+            className="flex-1 min-w-0 px-2 py-2 bg-zinc-900 border border-zinc-700 rounded-lg text-white text-sm focus:outline-none focus:border-blue-500"
+            placeholder="Überschrift eingeben"
+          />
+          <button
+            onClick={() => settings.setHeaderTextBold(!settings.headerTextBold)}
+            className={`px-2.5 py-2 rounded-lg flex items-center justify-center transition-all shrink-0 text-sm ${
+              settings.headerTextBold
+                ? 'bg-gradient-to-br from-blue-600 to-indigo-500 text-white border border-blue-500'
+                : 'bg-zinc-900 text-white/90 border border-zinc-700 hover:bg-zinc-800 hover:text-white'
+            } focus:outline-none`}
+            title="Fett"
+          >
+            Fett
+          </button>
+          <div className="w-16 shrink-0">
+            <NumberSelect
+              options={[
+                { value: 50, label: '50' },
+                { value: 60, label: '60' },
+                { value: 70, label: '70' },
+                { value: 80, label: '80' },
+                { value: 90, label: '90' },
+                { value: 100, label: '100' },
+                { value: 110, label: '110' },
+                { value: 120, label: '120' },
+                { value: 130, label: '130' },
+                { value: 140, label: '140' },
+                { value: 150, label: '150' },
+              ]}
+              value={settings.headerTextSize}
+              onChange={(val) => settings.setHeaderTextSize(val)}
+              min={30}
+              max={200}
+            />
+          </div>
+        </div>
       </div>
 
       {/* Logo Upload */}

@@ -14,6 +14,8 @@ export type Settings = {
   logoOriginalPath: string; // Store original uncropped logo
   headerVisible: boolean;
   headerHeight: number;
+  headerTextBold: boolean;
+  headerTextSize: number;
 
   // Current Game State
   currentGame: number; // 1, 2, or 3
@@ -40,6 +42,8 @@ export type Settings = {
   setLogoOriginalPath(v: string): void;
   setHeaderVisible(v: boolean): void;
   setHeaderHeight(v: number): void;
+  setHeaderTextBold(v: boolean): void;
+  setHeaderTextSize(v: number): void;
   setCurrentGame(v: number): void;
   setScheduleVisible(v: boolean): void;
   setScheduleItems(v: ScheduleItem[]): void;
@@ -75,6 +79,8 @@ const DEFAULT_SETTINGS = {
   logoOriginalPath: '',
   headerVisible: true,
   headerHeight: 100,
+  headerTextBold: false,
+  headerTextSize: 100,
   currentGame: 1,
   scheduleVisible: true,
   scheduleHeight: 100,
@@ -106,6 +112,8 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
     logoOriginalPath,
     headerVisible,
     headerHeight,
+    headerTextBold,
+    headerTextSize,
     currentGame,
     scheduleVisible,
     scheduleItems,
@@ -152,6 +160,8 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
   const setLogoOriginalPath = useMemo(() => createSetter('logoOriginalPath'), [createSetter]);
   const setHeaderVisible = useMemo(() => createSetter('headerVisible'), [createSetter]);
   const setHeaderHeight = useMemo(() => createSetter('headerHeight'), [createSetter]);
+  const setHeaderTextBold = useMemo(() => createSetter('headerTextBold'), [createSetter]);
+  const setHeaderTextSize = useMemo(() => createSetter('headerTextSize'), [createSetter]);
   const setCurrentGame = useMemo(() => createSetter('currentGame'), [createSetter]);
   const setScheduleVisible = useMemo(() => createSetter('scheduleVisible'), [createSetter]);
   const setScheduleItems = useMemo(() => createSetter('scheduleItems'), [createSetter]);
@@ -170,6 +180,8 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
     logoOriginalPath,
     headerVisible,
     headerHeight,
+    headerTextBold,
+    headerTextSize,
     currentGame,
     scheduleVisible,
     scheduleItems,
@@ -186,6 +198,8 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
     setLogoOriginalPath,
     setHeaderVisible,
     setHeaderHeight,
+    setHeaderTextBold,
+    setHeaderTextSize,
     setCurrentGame,
     setScheduleVisible,
     setScheduleItems,
@@ -203,6 +217,8 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
     logoOriginalPath,
     headerVisible,
     headerHeight,
+    headerTextBold,
+    headerTextSize,
     currentGame,
     scheduleVisible,
     scheduleItems,
@@ -219,6 +235,8 @@ export function SettingsProvider({ children }: { children: React.ReactNode }) {
     setLogoOriginalPath,
     setHeaderVisible,
     setHeaderHeight,
+    setHeaderTextBold,
+    setHeaderTextSize,
     setCurrentGame,
     setScheduleVisible,
     setScheduleItems,

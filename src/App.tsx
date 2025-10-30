@@ -274,8 +274,12 @@ export default function App() {
               style={{ height: `calc(clamp(6rem, 15vh, 10rem) * ${settings.headerHeight / 100})`, width: 'auto' }}
             />
             <h1
-              className="font-bold tracking-wide whitespace-nowrap"
-              style={{ fontSize: `calc(clamp(2.5rem, 5vw, 5rem) * ${settings.headerHeight / 100})`, textShadow: '0 4px 20px rgba(0, 0, 0, 0.8)' }}
+              className="tracking-wide whitespace-nowrap"
+              style={{
+                fontSize: `calc(clamp(2.5rem, 5vw, 5rem) * ${settings.headerHeight / 100} * ${settings.headerTextSize / 100})`,
+                fontWeight: settings.headerTextBold ? 700 : 400,
+                textShadow: '0 4px 20px rgba(0, 0, 0, 0.8)'
+              }}
             >
               {settings.tournamentName}
             </h1>
@@ -305,7 +309,7 @@ export default function App() {
           {/* Content */}
           <div className="relative z-10 px-8 h-full">
             {countdownActive && (
-              <div className="absolute left-0 right-0 text-center" style={{ top: 'clamp(1rem, 3vh, 4rem)', fontSize: 'clamp(2rem, 4.5vw, 6rem)', textShadow: '2px 2px 70px rgba(0, 0, 0, 0.7)' }}>
+              <div className="absolute left-0 right-0 text-center" style={{ top: 'clamp(1rem, 3vh, 4rem)', fontSize: 'clamp(2rem, 4.5vw, 6rem)', textShadow: '0 4px 12px rgba(0, 0, 0, 0.4)' }}>
                 {getCurrentPhaseLabel()} endet in
               </div>
             )}

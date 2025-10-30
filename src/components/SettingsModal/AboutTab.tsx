@@ -1,14 +1,6 @@
 import React from 'react';
 import defaultLogo from '../../assets/logo.png';
 
-declare global {
-  interface Window {
-    electronAPI: {
-      openExternal: (url: string) => void;
-    };
-  }
-}
-
 export default function AboutTab() {
   const openURL = (url: string) => {
     if (window.electronAPI?.openExternal) {

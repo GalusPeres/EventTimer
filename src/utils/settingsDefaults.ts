@@ -14,6 +14,8 @@ export const DEFAULT_LOGO_PATH = '';
 export const DEFAULT_LOGO_ORIGINAL_PATH = '';
 export const DEFAULT_HEADER_VISIBLE = true;
 export const DEFAULT_HEADER_HEIGHT = 100;
+export const DEFAULT_HEADER_TEXT_BOLD = false;
+export const DEFAULT_HEADER_TEXT_SIZE = 100;
 
 export const DEFAULT_SCHEDULE_ITEMS: ScheduleItem[] = [
   { id: 'item-1', label: 'Spiel 1', startTime: '09:30', endTime: '12:30' },
@@ -52,14 +54,18 @@ export function isHeaderAtDefaults(
   logoPath: string,
   logoOriginalPath: string,
   headerVisible: boolean,
-  headerHeight: number
+  headerHeight: number,
+  headerTextBold: boolean,
+  headerTextSize: number
 ): boolean {
   return (
     tournamentName === DEFAULT_TOURNAMENT_NAME &&
     logoPath === DEFAULT_LOGO_PATH &&
     logoOriginalPath === DEFAULT_LOGO_ORIGINAL_PATH &&
     headerVisible === DEFAULT_HEADER_VISIBLE &&
-    headerHeight === DEFAULT_HEADER_HEIGHT
+    headerHeight === DEFAULT_HEADER_HEIGHT &&
+    headerTextBold === DEFAULT_HEADER_TEXT_BOLD &&
+    headerTextSize === DEFAULT_HEADER_TEXT_SIZE
   );
 }
 

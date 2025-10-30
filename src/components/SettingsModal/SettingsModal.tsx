@@ -19,6 +19,8 @@ import {
   DEFAULT_LOGO_ORIGINAL_PATH,
   DEFAULT_HEADER_VISIBLE,
   DEFAULT_HEADER_HEIGHT,
+  DEFAULT_HEADER_TEXT_BOLD,
+  DEFAULT_HEADER_TEXT_SIZE,
   DEFAULT_SCHEDULE_ITEMS,
   DEFAULT_SCHEDULE_HEIGHT,
   DEFAULT_SCHEDULE_VISIBLE,
@@ -126,6 +128,8 @@ export default function SettingsModal({
       settings.setLogoOriginalPath(DEFAULT_LOGO_ORIGINAL_PATH);
       settings.setHeaderVisible(DEFAULT_HEADER_VISIBLE);
       settings.setHeaderHeight(DEFAULT_HEADER_HEIGHT);
+      settings.setHeaderTextBold(DEFAULT_HEADER_TEXT_BOLD);
+      settings.setHeaderTextSize(DEFAULT_HEADER_TEXT_SIZE);
     }
     setShowConfirm(false);
     setConfirmAction(null);
@@ -401,7 +405,9 @@ export default function SettingsModal({
                   settings.logoPath,
                   settings.logoOriginalPath,
                   settings.headerVisible,
-                  settings.headerHeight
+                  settings.headerHeight,
+                  settings.headerTextBold,
+                  settings.headerTextSize
                 );
 
                 if (!atDefaults) {
@@ -414,6 +420,8 @@ export default function SettingsModal({
                   settings.setLogoOriginalPath(DEFAULT_LOGO_ORIGINAL_PATH);
                   settings.setHeaderVisible(DEFAULT_HEADER_VISIBLE);
                   settings.setHeaderHeight(DEFAULT_HEADER_HEIGHT);
+                  settings.setHeaderTextBold(DEFAULT_HEADER_TEXT_BOLD);
+                  settings.setHeaderTextSize(DEFAULT_HEADER_TEXT_SIZE);
                 }
               }}
               className="px-4 py-2.5 bg-gradient-to-br from-blue-600 to-indigo-500 hover:from-blue-700 hover:to-indigo-600 border border-blue-500/30 text-white rounded-xl transition-all"

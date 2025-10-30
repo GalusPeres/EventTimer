@@ -327,15 +327,16 @@ export default function App() {
           className="relative rounded-[70px] w-full h-full cursor-pointer hover:opacity-90 transition-opacity overflow-hidden"
           onClick={handleOpenSettings}
         >
-          {/* Progress Bar Background (gray - #11131b or red when finished) */}
+          {/* Progress Bar Background (gray - lighter or red when finished) */}
           <div className={`absolute inset-0 rounded-[70px] transition-colors duration-500 ${
-            !countdownActive && remainingTime ? 'bg-red-600' : 'bg-[#11131b]'
+            !countdownActive && remainingTime ? 'bg-red-600' : 'bg-[#1e2236] bg-opacity-60'
           }`} />
 
-          {/* Progress Bar Foreground (green) - clips from left to right (right side shrinks) */}
+          {/* Progress Bar Foreground (green) - instant update, no animation for best performance */}
           <div
-            className="absolute inset-0 bg-green-600 transition-all duration-1000 ease-linear rounded-[70px]"
+            className="absolute inset-0 rounded-[70px]"
             style={{
+              backgroundColor: '#009936',
               clipPath: `inset(0 0 0 ${100 - progressPercent}% round 70px)`
             }}
           />
@@ -343,7 +344,7 @@ export default function App() {
           {/* Content */}
           <div className="relative z-10 px-8 h-full">
             {countdownActive && (
-              <div className="absolute left-0 right-0 text-center" style={{ top: 'clamp(1rem, 3vh, 4rem)', fontSize: 'clamp(2rem, 4.5vw, 6rem)', textShadow: '0 4px 12px rgba(0, 0, 0, 0.4)' }}>
+              <div className="absolute left-0 right-0 text-center" style={{ top: 'clamp(1rem, 3vh, 4rem)', fontSize: 'clamp(1.75rem, 4vw, 5.5rem)', textShadow: '0 4px 12px rgba(0, 0, 0, 0.4)' }}>
                 {getCurrentPhaseLabel()} endet in
               </div>
             )}
@@ -379,20 +380,20 @@ export default function App() {
             return (
               <div
                 key={item.id}
-                className={`bg-[#11131b] rounded-[50px] transition-all flex-1 ${
+                className={`bg-[#1e2236] rounded-[50px] transition-all flex-1 ${
                   isCurrent ? 'bg-opacity-100' : 'bg-opacity-60'
                 }`}
                 style={{ paddingLeft: '1.5rem', paddingRight: '1.5rem', paddingTop: `${(settings.scheduleHeight / 100) * 2}rem`, paddingBottom: `${(settings.scheduleHeight / 100) * 2}rem` }}
               >
                 <div
                   className="font-bold text-center"
-                  style={{ fontSize: `calc(clamp(1.2rem, 2vw, 1.875rem) * ${settings.scheduleHeight / 100})`, textShadow: '2px 2px 70px rgba(0, 0, 0, 0.7)' }}
+                  style={{ fontSize: `calc(clamp(1.4rem, 2.2vw, 2.125rem) * ${settings.scheduleHeight / 100})`, textShadow: '2px 2px 70px rgba(0, 0, 0, 0.7)' }}
                 >
                   {item.label}
                 </div>
                 <div
                   className="text-center mt-1"
-                  style={{ fontSize: `calc(clamp(1.125rem, 1.75vw, 1.75rem) * ${settings.scheduleHeight / 100})`, textShadow: '2px 2px 70px rgba(0, 0, 0, 0.7)' }}
+                  style={{ fontSize: `calc(clamp(1.25rem, 2vw, 2rem) * ${settings.scheduleHeight / 100})`, textShadow: '2px 2px 70px rgba(0, 0, 0, 0.7)' }}
                 >
                   {item.startTime} - {item.endTime}
                 </div>

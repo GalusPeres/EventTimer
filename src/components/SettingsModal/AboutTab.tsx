@@ -1,7 +1,7 @@
 import React from 'react';
 import defaultLogo from '../../assets/logo.png';
 
-export default function AboutTab() {
+const AboutTab = React.memo(function AboutTab() {
   const openURL = (url: string) => {
     if (window.electronAPI?.openExternal) {
       window.electronAPI.openExternal(url);
@@ -40,4 +40,6 @@ export default function AboutTab() {
       </div>
     </>
   );
-}
+});
+
+export default AboutTab;

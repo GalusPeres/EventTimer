@@ -5,7 +5,7 @@ type Props = {
   onFooterRender?: (footer: React.ReactNode) => void;
 };
 
-export default function ScheduleTab({ onFooterRender }: Props) {
+const ScheduleTab = React.memo(function ScheduleTab({ onFooterRender }: Props) {
   const settings = useSettings();
 
   const updateItem = (index: number, field: keyof ScheduleItem, value: string) => {
@@ -160,4 +160,6 @@ export default function ScheduleTab({ onFooterRender }: Props) {
       </div>
     </div>
   );
-}
+});
+
+export default ScheduleTab;

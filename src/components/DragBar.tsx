@@ -5,11 +5,13 @@ type Props = {
   onMouseActivity?: () => void;
 };
 
-export default function DragBar({ onMouseActivity }: Props) {
+const DragBar = React.memo(function DragBar({ onMouseActivity }: Props) {
   return (
     <div
       style={{ WebkitAppRegion: 'drag' } as any}
       className="absolute top-0 left-0 w-full h-8 bg-transparent z-40"
     />
   );
-}
+});
+
+export default DragBar;

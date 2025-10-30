@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import React, { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import { useSettings } from './context/SettingsContext';
 import SettingsModal from './components/SettingsModal/SettingsModal';
 import ConfirmModal from './components/ConfirmModal';
@@ -153,28 +153,28 @@ export default function App() {
   }, [targetDate, countdownActive]);
 
   // Calculate progress percentage (reversed: starts at 100%, goes down to 0%)
-  const progressPercent = countdownActive && countdownDuration > 0 && targetDate
-    ? (() => {
-        const remainingMs = targetDate.getTime() - Date.now();
+  const progressPercent = useMemo(() => {
+    if (!countdownActive || countdownDuration <= 0 || !targetDate) return 0;
 
-        // If limit is enabled, use limit as reference duration
-        if (settings.progressBarLimitEnabled) {
-          const limitMs = (settings.progressBarLimitHours * 60 * 60 + settings.progressBarLimitMinutes * 60) * 1000;
+    const remainingMs = targetDate.getTime() - Date.now();
 
-          // Bar always shows remaining time as percentage of limit duration
-          // Example: 2h remaining with 3h limit = 66.6% (2/3)
-          // Example: 4h remaining with 3h limit = 100% (stays full until drops below 3h)
-          const percentage = Math.min(100, (remainingMs / limitMs) * 100);
-          return Math.max(0, percentage);
-        }
+    // If limit is enabled, use limit as reference duration
+    if (settings.progressBarLimitEnabled) {
+      const limitMs = (settings.progressBarLimitHours * 60 * 60 + settings.progressBarLimitMinutes * 60) * 1000;
 
-        // Normal mode: remaining time as percentage of total duration
-        return Math.max(0, Math.min(100, (remainingMs / countdownDuration) * 100));
-      })()
-    : 0;
+      // Bar always shows remaining time as percentage of limit duration
+      // Example: 2h remaining with 3h limit = 66.6% (2/3)
+      // Example: 4h remaining with 3h limit = 100% (stays full until drops below 3h)
+      const percentage = Math.min(100, (remainingMs / limitMs) * 100);
+      return Math.max(0, percentage);
+    }
+
+    // Normal mode: remaining time as percentage of total duration
+    return Math.max(0, Math.min(100, (remainingMs / countdownDuration) * 100));
+  }, [countdownActive, countdownDuration, targetDate, remainingTime, settings.progressBarLimitEnabled, settings.progressBarLimitHours, settings.progressBarLimitMinutes]);
 
   // Start Countdown Handler
-  const handleStartCountdown = (mode: 'duration' | 'target', hours?: number, minutes?: number, targetTime?: string) => {
+  const handleStartCountdown = useCallback((mode: 'duration' | 'target', hours?: number, minutes?: number, targetTime?: string) => {
     let target: Date;
     const now = new Date();
 
@@ -200,34 +200,59 @@ export default function App() {
     setTargetDate(target);
     setCountdownStartTime(now);
     setCountdownActive(true);
-  };
+  }, []);
 
   // Reset Countdown Handler
-  const handleResetCountdown = () => {
+  const handleResetCountdown = useCallback(() => {
     setTargetDate(null);
     setRemainingTime('');
     setCountdownActive(false);
     setCountdownStartTime(null);
     setCountdownDuration(0);
-  };
+  }, []);
+
+  // Toggle Settings
+  const handleToggleSettings = useCallback(() => {
+    setShowSettings(prev => !prev);
+  }, []);
+
+  // Open Settings
+  const handleOpenSettings = useCallback(() => {
+    setShowSettings(true);
+  }, []);
+
+  // Close Settings
+  const handleCloseSettings = useCallback(() => {
+    setShowSettings(false);
+  }, []);
+
+  // Confirm Close App
+  const handleConfirmClose = useCallback(() => {
+    window.electronAPI.closeApp();
+  }, []);
+
+  // Cancel Close App
+  const handleCancelClose = useCallback(() => {
+    setShowCloseConfirm(false);
+  }, []);
 
   // Toggle Fullscreen
-  const handleToggleFullscreen = async () => {
+  const handleToggleFullscreen = useCallback(async () => {
     const isFull = await window.electronAPI.toggleFullscreen();
     setIsFullscreen(isFull);
-  };
+  }, []);
 
   // Handle Close App
-  const handleCloseApp = () => {
+  const handleCloseApp = useCallback(() => {
     if (countdownActive) {
       setShowCloseConfirm(true);
     } else {
       window.electronAPI.closeApp();
     }
-  };
+  }, [countdownActive]);
 
   // Get current schedule item
-  const getCurrentScheduleItem = () => {
+  const currentScheduleItemId = useMemo(() => {
     const now = new Date();
     const currentMinutes = now.getHours() * 60 + now.getMinutes();
 
@@ -242,18 +267,16 @@ export default function App() {
       }
     }
     return null;
-  };
-
-  const currentScheduleItemId = getCurrentScheduleItem();
+  }, [settings.scheduleItems, currentTime]);
 
   // Get current phase label from schedule
-  const getCurrentPhaseLabel = () => {
+  const getCurrentPhaseLabel = useCallback(() => {
     const index = settings.currentGame - 1;
     if (index >= 0 && index < settings.scheduleItems.length) {
       return settings.scheduleItems[index].label;
     }
     return '';
-  };
+  }, [settings.currentGame, settings.scheduleItems]);
 
   const hideControls = !showSettings && (hideCursor || !mouseInside);
   const hideAppCursor = !showSettings && hideCursor;
@@ -268,7 +291,7 @@ export default function App() {
 
       {/* Hover Controls */}
       <HoverControls
-        onSettings={() => setShowSettings(!showSettings)}
+        onSettings={handleToggleSettings}
         onFullscreen={handleToggleFullscreen}
         onClose={handleCloseApp}
         visible={!hideControls}
@@ -302,7 +325,7 @@ export default function App() {
       <div className="flex items-center justify-center flex-1 px-3 pb-3">
         <div
           className="relative rounded-[70px] w-full h-full cursor-pointer hover:opacity-90 transition-opacity overflow-hidden"
-          onClick={() => setShowSettings(true)}
+          onClick={handleOpenSettings}
         >
           {/* Progress Bar Background (gray - #11131b or red when finished) */}
           <div className={`absolute inset-0 rounded-[70px] transition-colors duration-500 ${
@@ -382,7 +405,7 @@ export default function App() {
       {/* Settings Modal */}
       <SettingsModal
         visible={showSettings}
-        onClose={() => setShowSettings(false)}
+        onClose={handleCloseSettings}
         countdownActive={countdownActive}
         onStartCountdown={handleStartCountdown}
         onResetCountdown={handleResetCountdown}
@@ -404,12 +427,8 @@ export default function App() {
         message="Der Countdown läuft noch. Wirklich beenden?"
         confirmText="Ja"
         cancelText="Abbrechen"
-        onConfirm={() => {
-          window.electronAPI.closeApp();
-        }}
-        onCancel={() => {
-          setShowCloseConfirm(false);
-        }}
+        onConfirm={handleConfirmClose}
+        onCancel={handleCancelClose}
       />
     </div>
   );

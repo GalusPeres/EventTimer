@@ -7,7 +7,7 @@ type Props = {
   onOpenLogoEditor: (imageSrc: string) => void;
 };
 
-export default function HeaderTab({ onOpenLogoEditor }: Props) {
+const HeaderTab = React.memo(function HeaderTab({ onOpenLogoEditor }: Props) {
   const settings = useSettings();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -208,4 +208,6 @@ export default function HeaderTab({ onOpenLogoEditor }: Props) {
       </div>
     </div>
   );
-}
+});
+
+export default HeaderTab;

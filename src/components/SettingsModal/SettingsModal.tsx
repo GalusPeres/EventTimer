@@ -46,7 +46,7 @@ type Props = {
   setProgressBarLimitMinutes: (minutes: number) => void;
 };
 
-export default function SettingsModal({
+const SettingsModal = React.memo(function SettingsModal({
   visible,
   onClose,
   countdownActive,
@@ -495,4 +495,6 @@ export default function SettingsModal({
       />
     </div>
   );
-}
+});
+
+export default SettingsModal;

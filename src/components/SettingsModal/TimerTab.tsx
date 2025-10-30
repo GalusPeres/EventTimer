@@ -23,7 +23,7 @@ type Props = {
   setProgressBarLimitMinutes: (minutes: number) => void;
 };
 
-export default function TimerTab({ mode, setMode, hours, setHours, minutes, setMinutes, targetTime, setTargetTime, countdownActive, remainingTime, countdownStartTime, targetDate, progressBarLimitEnabled, setProgressBarLimitEnabled, progressBarLimitHours, setProgressBarLimitHours, progressBarLimitMinutes, setProgressBarLimitMinutes }: Props) {
+const TimerTab = React.memo(function TimerTab({ mode, setMode, hours, setHours, minutes, setMinutes, targetTime, setTargetTime, countdownActive, remainingTime, countdownStartTime, targetDate, progressBarLimitEnabled, setProgressBarLimitEnabled, progressBarLimitHours, setProgressBarLimitHours, progressBarLimitMinutes, setProgressBarLimitMinutes }: Props) {
   const settings = useSettings();
 
   return (
@@ -280,7 +280,7 @@ export default function TimerTab({ mode, setMode, hours, setHours, minutes, setM
       </div>
     </>
   );
-}
+});
 
 // Info Box Component
 function InfoBox({ countdownActive, mode, hours, minutes, targetTime, remainingTime, countdownStartTime, targetDate, progressBarLimitEnabled, progressBarLimitHours, progressBarLimitMinutes }: {
@@ -365,3 +365,5 @@ function InfoBox({ countdownActive, mode, hours, minutes, targetTime, remainingT
     </div>
   );
 }
+
+export default TimerTab;
